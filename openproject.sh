@@ -1,0 +1,2 @@
+nvim ./src/Main.cpp
+
