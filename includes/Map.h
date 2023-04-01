@@ -13,6 +13,7 @@ class Map : public BusNode
         Map(EventBus * eventBus);
         ~Map();
         void update();
+        void loadMainMenu();
         void loadLevelAssets();
         void createTexture(const char* path);
         void sendAssets();

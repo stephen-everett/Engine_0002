@@ -4,7 +4,7 @@ BusNode::BusNode(){}
 BusNode::BusNode(EventBus * eventBus)
 {
     this->eventBus = eventBus;
-    this->eventBus->addStaticReceiver(this->getNotifyFunc());
+    this->eventBus->addReceiver(this->getNotifyFunc());
 }
 
 std::function<void (SDL_Event)> BusNode::getNotifyFunc()
@@ -39,4 +39,20 @@ EventBus * BusNode::getBus()
 void BusNode::setBus(EventBus * bus)
 {
     eventBus = bus;
+}
+
+void BusNode::sendEvent(int code, void* data1, void* data2)
+{
+    Uint32 userEvent = SDL_RegisterEvents(1);
+    if(userEvent != ((Uint32)-1))
+    {
+        SDL_Event myEvent;
+        SDL_memset(&myEvent,0,sizeof(myEvent));
+        myEvent.type = userEvent;
+        myEvent.user.code = code;
+        myEvent.user.data1 = data1;
+        myEvent.user.data2 = data2;
+        SDL_PushEvent(&myEvent);
+    }
+    
 }

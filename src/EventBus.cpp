@@ -11,11 +11,6 @@ void EventBus::addReceiver(std::function<void (SDL_Event)> eventReceiver)
     receivers.push_back(eventReceiver);
 }
 
-void EventBus::addStaticReceiver(std::function<void (SDL_Event)> staticEventReceiver)
-{
-    staticReceivers.push_back(staticEventReceiver);
-}
-
 void EventBus::sendMessage(SDL_Event * passedEvent)
 {
     SDL_PushEvent(passedEvent);
@@ -27,14 +22,15 @@ void EventBus::notify()
     {
         if (event.type == SDL_USEREVENT)
         {
-            if (event.user.code == FLUSH_RECEIVERS)
+            printf("---Event Bus Received User Event---\n");
+            if(event.user.code == LOAD_INITIAL)
             {
-                receivers.clear();
+                printf("---User code received: LOAD_INITIAL ---\n");
             }
-        }
-        for (auto it = staticReceivers.begin(); it != staticReceivers.end(); it++)
-        {
-            (*it)(event);
+            if(event.user.code == LOAD_ENTITY)
+            {
+                printf("---User code received: LOAD_ENTITY ---\n");
+            }
         }
         for (auto it = receivers.begin(); it != receivers.end(); it++)
         {

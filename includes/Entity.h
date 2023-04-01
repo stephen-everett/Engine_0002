@@ -8,12 +8,13 @@ class Entity : public BusNode
         Entity();
         ~Entity();
         Entity(EventBus * bus);
-        Entity(EventBus* bus, const char* path, int x, int y, int w, int h);
+        Entity(EventBus* bus, const char* path,int index, int x, int y, int w, int h);
         void update();
         TextureRect * getTextureRect();
     protected:
         void onNotify(SDL_Event event);
     private:
         TextureRect  entityData;
+        bool empty;
 };
 #endif

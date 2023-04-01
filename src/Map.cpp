@@ -4,8 +4,8 @@ Map::Map(){}
 
 Map::Map(EventBus * eventBus) : BusNode(eventBus)
 {
-    loadLevelAssets();
-    loadRectFromEntities();
+    //loadLevelAssets();
+    //loadRectFromEntities();
     //createTexture("./assets/img/background-main.jpg");
 }
 
@@ -13,13 +13,15 @@ Map::~Map(){}
 
 void Map::update(){}
 
+void Map::loadMainMenu()
+{
+    Entity* mainBackground = new Entity(eventBus,MAIN_MENU_BACKGROUND_PATH,BACKGROUND_TEXTURE_INDEX,0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+    entities.push_back(mainBackground);
+}
+
 void Map::loadLevelAssets()
 {
-
-    Entity * tempEntity = new Entity(eventBus,LEVEL_ONE_BACKGROUND,0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-    entities.push_back(tempEntity);
-    Entity * player = new Entity(eventBus,PLAYERMODEL,WINDOW_WIDTH/2,WINDOW_HEIGHT-100,100,100);
-    entities.push_back(player);
+    Entity* test = new Entity(eventBus);
 }
 
 void Map::createTexture(const char* path)
@@ -38,11 +40,25 @@ void Map::createTexture(const char* path)
 
 void Map::onNotify(SDL_Event  message)
 {
-    printf("Map onNOtify\n");
+    printf("Map onNotify()\n");
+    if (message.type == SDL_USEREVENT)
+    {
+        printf("---Received User Event ---\n");
+        if(message.user.code == LOAD_INITIAL)
+        {
+            printf("---Received LOAD_INITIAL event ---\n");
+            loadMainMenu();
+        }
+        if(message.user.code == LOAD_ENTITY)
+        {
+            printf("---Received LOAD_ENTITY event ---\n");
+        }
+    }
 }
 
 void Map::sendAssets()
 {
+    /*
     testVector.push_back(x);
     testVector2.push_back(test);
     if (testVector.front() == 0)
@@ -60,10 +76,12 @@ void Map::sendAssets()
         event.user.data2 = &testVector2;
         SDL_PushEvent(&event);
     }
+    */
 }
 
 void Map::loadRectFromEntities()
-{ 
+{
+    /*
     for (auto it = entities.begin(); it != entities.end(); ++it)
     {
        backgrounds.push_back((*it)->getTextureRect());
@@ -78,10 +96,12 @@ void Map::loadRectFromEntities()
     {
         printf("Backgrounds appear to be loading fine\n");
     }
+    */
 }
 
 void Map::closeMap()
 {
+    /*
     for(auto it = entities.begin(); it != entities.end(); ++it)
     {
         delete(*it);
@@ -98,6 +118,7 @@ void Map::closeMap()
         event.user.data2 = NULL;
         SDL_PushEvent(&event);
     }
+    */
 
 }
 

@@ -4,7 +4,8 @@
 
 struct TextureRect
 {
-    const char* tag;
+    const char * texturePath;
+    int textureIndex;
     SDL_Texture * texture;
     SDL_Rect dimensions;
 };

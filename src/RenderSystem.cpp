@@ -19,20 +19,6 @@ void RenderSystem::init()
    {
        printf("Could not initialize video subsystem! %s\n",SDL_GetError());
    }
-/*
-   if (bus == NULL)
-   {
-       printf("Not given a valid Event Bus!\n");
-   }
-    else
-    {
-        setBus(bus);
-    }
-
-   createWindow();
-   createRenderer();
-   draw();
-   */
 }
 
 void RenderSystem::close()
@@ -185,7 +171,7 @@ void RenderSystem::draw()
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer,255,255,255,SDL_ALPHA_OPAQUE);
 
-    
+   /* 
     for(auto it = begin(staticTextures); it != end(staticTextures); ++it)
     {
         if (debug)
@@ -195,6 +181,7 @@ void RenderSystem::draw()
 
         SDL_RenderCopy(renderer,(*it)->texture,NULL,&(*it)->dimensions);
     }
+    */
     /*
     for(auto it = begin(textures); it != end(textures); ++it)
     {
@@ -219,15 +206,22 @@ void RenderSystem::setDebug(bool state)
 
 void RenderSystem::onNotify(SDL_Event event)
 {
+    printf("Render System onNotify()\n");
     if(event.type == SDL_USEREVENT)
     {
         if(event.user.code == LOAD_LEVEL)
         {
+            /*
             printf("Render System received code: LOAD_LEVEL\n");
             loadStaticAssets((std::vector<TextureRect*>*)event.user.data1);
             //testLoad((std::vector<int>*)event.user.data1);
             testLoad2((std::vector<int*>*)event.user.data2);
+            */
             
+        }
+        if(event.user.code == LOAD_TEXTURE)
+        {
+            printf("---------------------------Render system received LOAD_TEXTURE event------\n");
         }
     }
 }
@@ -258,6 +252,7 @@ void RenderSystem::testLoad(std::vector<int>* x)
 }
 void RenderSystem::loadStaticAssets(std::vector<TextureRect*>* staticAssVec)
 {
+    /*
     TextureRect * test = staticAssVec->front(); 
     SDL_Rect testSDLRect = test->dimensions;
     int x = testSDLRect.x;
@@ -282,6 +277,7 @@ void RenderSystem::loadStaticAssets(std::vector<TextureRect*>* staticAssVec)
 
 
     }
+    */
  
     /*
     printf("Passed the asset to loadStaticAssets successfully\n");
