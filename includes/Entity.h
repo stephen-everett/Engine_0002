@@ -13,8 +13,8 @@ class Entity : public BusNode
         TextureRect * getTextureRect();
     protected:
         void onNotify(SDL_Event event);
-    private:
         TextureRect  entityData;
+    private:
         bool empty;
 };
 #endif

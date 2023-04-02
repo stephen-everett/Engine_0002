@@ -19,20 +19,23 @@ class System : public BusNode
             ResourceManager resourceManager(eventBus);
             Map mainMenu(eventBus);
             RenderSystem screen(eventBus);
-            //sendEvent(LOAD_INITIAL,NULL,NULL);
-            //Entity test(eventBus);
-            Entity test2(eventBus, LEVEL_ONE_BACKGROUND_PATH,BACKGROUND_TEXTURE_INDEX,0,0,0,0);
-            //sendEvent(LOAD_INITIAL,NULL,NULL);
+            printf("---SYSTEM INITIALIZING EVENTS---\n");
+            initializeEvents();
+            printf("---SENDING LOAD-INITIAL----\n");
+            sendEvent(LOAD_INITIAL,&userEvent1,NULL);
+            printf("---SENDING LOAD_ENTITY---\n");
             sendEvent(LOAD_ENTITY,NULL,NULL);
-            //mainMenu.sendAssets();
-            //screen.setDebug(true);
-            //int count = 0;
+            printf("---Value of uint32: %i ---\n", userEvent1);
+            setEntity();
             while(!quit)
             {
                 eventBus->notify();
-                //screen.draw();
+                screen.draw();
             }
-            //screen.close();
+        }
+        void setEntity()
+        {
+            test.push_back(new Entity(eventBus));
         }
     protected:
         void onNotify(SDL_Event event)
@@ -45,14 +48,9 @@ class System : public BusNode
             if(event.type == SDL_USEREVENT)
             {
                 printf("---Received user event---\n");
-               // printf("Custom Event Received: System Class onNotify\n");
-                if(event.user.code == 0)
-                {
-                   // printf("Custom event code received System Class onNotify\n");
-                }
                 if(event.user.code == LOAD_LEVEL)
                 {
-                    //printf("LOAD_LEVEL code received System Class onNotify\n");
+                    printf("---Received LOAD_LEVEL System---\n");
                 }
                 if(event.user.code == LOAD_INITIAL)
                 {
@@ -62,6 +60,12 @@ class System : public BusNode
                 {
                     printf("---User event received: LOAD_ENTITY ---\n");
                 }
+                if(event.user.code == TEST_EVENT)
+                {
+                    printf("--- User event received: TEST_EVENT System ---\n");
+                }
+
+
             }
         }
 
@@ -69,6 +73,7 @@ class System : public BusNode
        
         bool quit = false;
         SDL_Event event;
+        std::vector<Entity*> test;
        
 
 

@@ -5,6 +5,7 @@
 #include "TextureRect.h"
 #include <SDL2/SDL_image.h>
 #include "Entity.h"
+#include "Button.h"
 
 class Map : public BusNode
 {
@@ -14,22 +15,10 @@ class Map : public BusNode
         ~Map();
         void update();
         void loadMainMenu();
-        void loadLevelAssets();
-        void createTexture(const char* path);
-        void sendAssets();
-        void loadRectFromEntities();
-        void closeMap();
     protected:
         void onNotify(SDL_Event  message);
+        std::vector<Entity*> backgrounds;
     private:
-        int x = 0;
-        int * test = &x;
-        std::vector<int> testVector;
-        std::vector<int*> testVector2;
-        std::vector<Entity*> entities;
-        std::vector<TextureRect*> backgrounds;
-        std::vector<dynamicAsset> effects;
-        SDL_Event event;
 
 };
 

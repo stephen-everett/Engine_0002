@@ -24,6 +24,7 @@ class RenderSystem : BusNode
         //void loadAssets(std::vector<Asset*> *ass);
         void testLoad(std::vector<int>* x);
         void testLoad2(std::vector<int*>* x);
+        void createTexture(TextureRect* givenRect);
         void loadStaticAssets(std::vector<TextureRect*>* staticAssVec);
        // void loadStaticAssets(std::vector<Asset*> *ass);
        // void loadAsset(Asset * asset);
@@ -46,6 +47,9 @@ class RenderSystem : BusNode
         std::vector<Asset*> *allAssets = NULL;
         std::vector<TextureRect> textures;
         std::vector<TextureRect*> staticTextures;
+        SDL_Texture * loadedTextures;
+        std::vector<TextureRect*>* loadedRectangles;
+
         int numberOfAssets;
 };
 

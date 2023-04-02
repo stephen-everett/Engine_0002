@@ -171,6 +171,13 @@ void RenderSystem::draw()
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer,255,255,255,SDL_ALPHA_OPAQUE);
 
+    for(auto it = loadedRectangles->begin(); it != loadedRectangles->end();++it)
+    {
+        texture = (*it)->texture;
+        SDL_Rect rect = (*it)->dimensions;
+        SDL_RenderCopy(renderer,texture,NULL,&rect);
+    }
+
    /* 
     for(auto it = begin(staticTextures); it != end(staticTextures); ++it)
     {
@@ -221,9 +228,44 @@ void RenderSystem::onNotify(SDL_Event event)
         }
         if(event.user.code == LOAD_TEXTURE)
         {
-            printf("---------------------------Render system received LOAD_TEXTURE event------\n");
+            printf("--- Received LOAD_TEXTURE RenderSystem---\n");
         }
+        if(event.user.code == LOAD_INITIAL)
+        {
+            printf("--- Received LOAD_INITIAL RenderSystem---\n");
+            userEvent1 = *(Uint32*)event.user.data1;
+        }
+        if(event.user.code == TEST_EVENT)
+        {
+            printf("--- Received TEST_EVENT RenderSystem---\n");
+        }
+        if(event.user.code == TEST_RENDER)
+        {
+            printf("--- Received TEST_RENDER RenderSystem---\n");
+        }
+        if(event.user.code == LOAD_TEXTURE)
+        {
+            printf("--- Received LOAD_TEXTURE ---\n");
+        }
+        if(event.user.code == CREATE_TEXTURE)
+        {
+            printf("--- Received CREATE_TEXTURE RenderSystem ---\n");
+            createTexture((TextureRect*)event.user.data1);
+        }
+        if(event.user.code == RM_INIT)
+        {
+            printf("---Received RM_INIT---\n");
+            loadedTextures = (SDL_Texture*)event.user.data1;
+            loadedRectangles = (std::vector<TextureRect*>*)event.user.data2;
+        }   
     }
+}
+
+void RenderSystem::createTexture(TextureRect* givenRect)
+{
+    surface = IMG_Load(givenRect->texturePath);
+    givenRect->texture = SDL_CreateTextureFromSurface(renderer,surface);
+    SDL_FreeSurface(surface);
 }
 
 void RenderSystem::testLoad2(std::vector<int*>*x)

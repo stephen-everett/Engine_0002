@@ -41,18 +41,20 @@ void BusNode::setBus(EventBus * bus)
     eventBus = bus;
 }
 
+void BusNode::initializeEvents()
+{
+    userEvent1 = SDL_RegisterEvents(1);
+}
+
+
 void BusNode::sendEvent(int code, void* data1, void* data2)
 {
-    Uint32 userEvent = SDL_RegisterEvents(1);
-    if(userEvent != ((Uint32)-1))
-    {
-        SDL_Event myEvent;
-        SDL_memset(&myEvent,0,sizeof(myEvent));
-        myEvent.type = userEvent;
-        myEvent.user.code = code;
-        myEvent.user.data1 = data1;
-        myEvent.user.data2 = data2;
-        SDL_PushEvent(&myEvent);
-    }
-    
+    SDL_Event myEvent;
+    SDL_memset(&myEvent,0,sizeof(myEvent));
+    myEvent.type = userEvent1;
+    myEvent.user.code = code;
+    myEvent.user.data1 = data1;
+    myEvent.user.data2 = data2;
+    SDL_PushEvent(&myEvent);
 }
+

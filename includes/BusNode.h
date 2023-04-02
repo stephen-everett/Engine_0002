@@ -10,11 +10,14 @@ class BusNode
         virtual void update();
         EventBus * getBus();
         void setBus(EventBus * bus);
+        void initializeEvents();
         void sendEvent(int code, void* data1, void* data2);
     protected:
         EventBus * eventBus;
         std::function<void (SDL_Event)> getNotifyFunc();
         void send(SDL_Event * message);
         virtual void onNotify(SDL_Event event);
+        Uint32 userEvent1;
 };
+       
 #endif
