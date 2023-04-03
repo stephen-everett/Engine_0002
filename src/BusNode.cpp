@@ -58,3 +58,14 @@ void BusNode::sendEvent(int code, void* data1, void* data2)
     SDL_PushEvent(&myEvent);
 }
 
+void BusNode::sendEvent(int code)
+{
+    SDL_Event myEvent;
+    SDL_memset(&myEvent,0,sizeof(myEvent));
+    myEvent.type = userEvent1;
+    myEvent.user.code = code;
+    myEvent.user.data1 = NULL;
+    myEvent.user.data2 = NULL;
+    SDL_PushEvent(&myEvent);
+}
+

@@ -10,18 +10,4 @@ void Button::update(){}
 
 void Button::onNotify(SDL_Event event)
 {
-    if(event.type == SDL_MOUSEBUTTONDOWN)
-    {
-        printf("---MOUSE PRESSED---\n");
-    }
-    if(event.type == SDL_USEREVENT)
-    {
-        if(event.user.code == LOAD_INITIAL)
-        {
-            userEvent1 = *(Uint32*)event.user.data1;
-            sendEvent(LOAD_TEXTURE,&entityData,NULL);
-            //userEvent1 = *(Uint32*)event.user.data1;
-            //sendEvent(LOAD_TEXTURE, &entityData,NULL);
-        }
-    }
 }

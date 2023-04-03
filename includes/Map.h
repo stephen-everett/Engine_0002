@@ -11,13 +11,15 @@ class Map : public BusNode
 {
     public:
         Map();
-        Map(EventBus * eventBus);
+        Map(EventBus * eventBus, Entity** allEntities);
         ~Map();
         void update();
         void loadMainMenu();
+        void loadLevel();
     protected:
+        void clearMap();
         void onNotify(SDL_Event  message);
-        std::vector<Entity*> backgrounds;
+        Entity** allEntities;
     private:
 
 };

@@ -10,6 +10,7 @@ class Entity : public BusNode
         Entity(EventBus * bus);
         Entity(EventBus* bus, const char* path,int index, int x, int y, int w, int h);
         void update();
+        TextureRect* getRect();
         TextureRect * getTextureRect();
     protected:
         void onNotify(SDL_Event event);

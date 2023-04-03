@@ -49,7 +49,6 @@ class System : public BusNode
 
             // Beginning state
             state = SET_STAGE;
-            level = 0;
             // Main loop
             while(!quit)
             {
@@ -60,25 +59,13 @@ class System : public BusNode
                     sendEvent(RM_SEND_RESOURCE_LINKS);
                     state = IDLE;
                 }
-                else if (state == LOAD_MAIN_MENU && level == 0)
+                else if (state == LOAD_MAIN_MENU)
                 {
                     printf("--- STATE IS LOAD_MAIN_MENU---\n");
                     sendEvent(M_LOAD_MAIN);
                     state = IDLE;
                 }
-                else if (state == LOAD_MAIN_MENU && level == 1)
-                {
-                    sendEvent(M_LOAD_LEVEL_1);
-                    state = IDLE;
-                }
-                else if (state == READY)
-                {
-                    screen.draw();
-                }
-                else if(state == IDLE)
-                {
-                    printf("--- STATE IDLE ---\n");
-                }
+                screen.draw();
             }
         }
         void setEntity()
@@ -97,13 +84,6 @@ class System : public BusNode
                     200,200,
                     300,100
                     );
-            allEntities[LEVEL_1] = new Entity(
-                    eventBus,
-                    LEVEL_ONE_BACKGROUND_PATH,
-                    INDX_LEVEL1_BG,
-                    0,0,
-                    WINDOW_WIDTH,WINDOW_HEIGHT
-                    );
         }
     protected:
         void onNotify(SDL_Event event)
@@ -120,23 +100,10 @@ class System : public BusNode
                     printf("-- STATE IS SYS_STAGE_SET ---\n");
                     state = LOAD_MAIN_MENU;
                 }
-                if(event.user.code == SYS_READY)
-                {
-                    state = READY;
-                }
-            }
-            else if (event.type == SDL_KEYDOWN)
-            {
-                if (event.key.keysym.sym == SDLK_k)
-                {
-                    state = SET_STAGE;
-                    level = 1;
-                }
             }
         }
 
     private:
-        int level;
         State state; 
         bool quit = false;
         SDL_Event event;
