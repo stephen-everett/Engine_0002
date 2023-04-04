@@ -11,6 +11,7 @@
 #define ENEMY_MODEL2_PATH "./assets/img/Jet2.png"
 #define ENEMY_MODEL3_Path "./assets/img/Jet3.png"
 #define P_MOUSE_MODEL "./assets/img/Mouse.png"
+#define M_TITLE "./assets/img/Title.png"
 
 #define WINDOWNAME "Game"
 #define WINDOW_HEIGHT 480
@@ -30,7 +31,8 @@ enum UserEvent
     M_RECTFLUSHED,
     M_LOAD_LEVEL_1,
     SYS_STAGE_SET,
-    SYS_READY
+    SYS_READY,
+    START_CLICKED
 };
 
 enum TextureIndex
@@ -41,6 +43,7 @@ enum TextureIndex
     ENEMY_ONE_TEXTURE_INDEX,
     ENEMY_TWO_TEXTURE_INDEX,
     START_BUTTON_INDEX,
+    INDX_TITLE,
     INDX_MOUSE,
     END,
     TEXTURE_ARRAY_SIZE
@@ -60,6 +63,7 @@ enum EntityIndex
     START_BUTTON,
     LEVEL_1,
     E_MOUSE,
+    TITLE,
     NUMBER_OF_ENTITIES,
 };
 #endif

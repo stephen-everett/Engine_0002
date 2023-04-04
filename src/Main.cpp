@@ -85,19 +85,31 @@ class System : public BusNode
         void setEntity()
         {
             //test.push_back(new Entity(eventBus));
+            allEntities[E_MOUSE] = new Mouse(eventBus);
+
             allEntities[MAIN_MENU] = new Entity(
                     eventBus,
                     MAIN_MENU_BACKGROUND_PATH,
                     INDX_MAIN_MENU,
                     0,0,
                     WINDOW_WIDTH,WINDOW_HEIGHT);
+
             allEntities[START_BUTTON] = new Button(
-                    eventBus,
+                    eventBus,allEntities[E_MOUSE],
                     B_START_PATH,
                     START_BUTTON_INDEX,
-                    200,200,
+                    (WINDOW_WIDTH/2)-150,(WINDOW_HEIGHT/2)-50,
                     300,100
                     );
+
+            allEntities[TITLE] = new Entity(
+                    eventBus,
+                    M_TITLE,
+                    INDX_TITLE,
+                    0,0,
+                    640,200
+                    );
+
             allEntities[LEVEL_1] = new Entity(
                     eventBus,
                     LEVEL_ONE_BACKGROUND_PATH,
@@ -105,7 +117,6 @@ class System : public BusNode
                     0,0,
                     WINDOW_WIDTH,WINDOW_HEIGHT
                     );
-            allEntities[E_MOUSE] = new Mouse(eventBus);
         }
     protected:
         void onNotify(SDL_Event event)
@@ -127,9 +138,9 @@ class System : public BusNode
                     state = READY;
                 }
             }
-            else if (event.type == SDL_KEYDOWN)
+            else if (event.type == SDL_KEYDOWN || event.user.code == START_CLICKED)
             {
-                if (event.key.keysym.sym == SDLK_k)
+                if (event.key.keysym.sym == SDLK_k || event.user.code == START_CLICKED)
                 {
                     state = SET_STAGE;
                     level = 1;

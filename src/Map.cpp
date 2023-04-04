@@ -17,8 +17,10 @@ void Map::loadMainMenu()
     TextureRect * mainBackground = allEntities[MAIN_MENU]->getRect();
     TextureRect * startButton = allEntities[START_BUTTON]->getRect();
     TextureRect * mouse = allEntities[E_MOUSE]->getRect();
+    TextureRect * Title = allEntities[TITLE]->getRect();
     sendEvent(RM_SET_TEXTURE, mainBackground,NULL);
     sendEvent(RM_SET_TEXTURE, startButton,NULL);
+    sendEvent(RM_SET_TEXTURE,Title,NULL);
     sendEvent(RM_SET_TEXTURE, mouse, NULL);
     sendEvent(SYS_READY,NULL,NULL);
 }
