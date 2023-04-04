@@ -1,7 +1,7 @@
 #OBJS specifies which files to compile as part of the project
 #OBJS = 02_getting_an_image_on_the_screen.cpp
 #OBJS =	./src/Main.cpp ./src/RenderSystem.cpp
-OBJS = ./src/Main.cpp ./src/EventBus.cpp ./src/BusNode.cpp ./src/RenderSystem.cpp ./src/Map.cpp ./src/Entity.cpp ./src/ResourceManager.cpp ./src/Button.cpp
+OBJS = ./src/Main.cpp ./src/EventBus.cpp ./src/BusNode.cpp ./src/RenderSystem.cpp ./src/Map.cpp ./src/Entity.cpp ./src/ResourceManager.cpp ./src/Button.cpp ./src/Mouse.cpp
 #CC specifies which compiler we're using
 CC = g++
 

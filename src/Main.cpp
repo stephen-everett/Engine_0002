@@ -4,6 +4,7 @@
 #include "Structs.h"
 #include "Map.h"
 #include "ResourceManager.h"
+#include "Mouse.h"
 
 class System : public BusNode
 {
@@ -90,7 +91,7 @@ class System : public BusNode
                     INDX_MAIN_MENU,
                     0,0,
                     WINDOW_WIDTH,WINDOW_HEIGHT);
-            allEntities[START_BUTTON] = new Entity(
+            allEntities[START_BUTTON] = new Button(
                     eventBus,
                     B_START_PATH,
                     START_BUTTON_INDEX,
@@ -104,6 +105,7 @@ class System : public BusNode
                     0,0,
                     WINDOW_WIDTH,WINDOW_HEIGHT
                     );
+            allEntities[E_MOUSE] = new Mouse(eventBus);
         }
     protected:
         void onNotify(SDL_Event event)

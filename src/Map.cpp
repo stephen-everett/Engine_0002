@@ -16,8 +16,10 @@ void Map::loadMainMenu()
     printf("+++ in Map::loadMainMenu() +++\n");
     TextureRect * mainBackground = allEntities[MAIN_MENU]->getRect();
     TextureRect * startButton = allEntities[START_BUTTON]->getRect();
+    TextureRect * mouse = allEntities[E_MOUSE]->getRect();
     sendEvent(RM_SET_TEXTURE, mainBackground,NULL);
     sendEvent(RM_SET_TEXTURE, startButton,NULL);
+    sendEvent(RM_SET_TEXTURE, mouse, NULL);
     sendEvent(SYS_READY,NULL,NULL);
 }
 
