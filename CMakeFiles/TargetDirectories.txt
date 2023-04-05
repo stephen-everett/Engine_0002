@@ -1,0 +1,3 @@
+/home/l0fi/Documents/SDL2/Engine_0002/CMakeFiles/Main.dir
+/home/l0fi/Documents/SDL2/Engine_0002/CMakeFiles/edit_cache.dir
+/home/l0fi/Documents/SDL2/Engine_0002/CMakeFiles/rebuild_cache.dir
