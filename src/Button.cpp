@@ -2,6 +2,8 @@
 
 Button::Button(){}
 
+Button::~Button(){}
+
 Button::Button(EventBus* eventBus,Entity* mouse, const char* path, int index, int x, int y, int w, int h)
     :Entity(eventBus, path, index, x, y, w, h)
 {

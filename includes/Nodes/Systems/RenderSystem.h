@@ -7,7 +7,6 @@
 #include "TextureRect.h"
 #include "EventBus.h"
 #include "BusNode.h"
-        void onNotify(SDL_Event event);
 #include "Structs.h"
 
 class RenderSystem : BusNode

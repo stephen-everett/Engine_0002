@@ -7,8 +7,8 @@ class Entity : public BusNode
     public:
         Entity();
         ~Entity();
-        Entity(EventBus * bus);
-        Entity(EventBus* bus, const char* path,int index, int x, int y, int w, int h);
+        Entity(EventBus * eventBus);
+        Entity(EventBus* eventBus, const char* path,int index, int x, int y, int w, int h);
         void update();
         TextureRect* getRect();
         TextureRect * getTextureRect();

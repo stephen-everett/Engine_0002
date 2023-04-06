@@ -1,0 +1,57 @@
+[
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/BusNode.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/BusNode.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/BusNode.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/Button.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/Button.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/Button.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/Entity.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/Entity.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/Entity.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/EventBus.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/EventBus.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/EventBus.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/Main.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/Main.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/Main.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/MainMenu.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/MainMenu.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/MainMenu.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/Map.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/Map.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/Map.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/Mouse.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/Mouse.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/Mouse.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/RenderSystem.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/RenderSystem.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/RenderSystem.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/ResourceManager.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/ResourceManager.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/ResourceManager.cpp"
+},
+{
+  "directory": "/home/l0fi/Documents/SDL2/Engine_0002",
+  "command": "/usr/bin/c++  -I/home/l0fi/Documents/SDL2/Engine_0002/includes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Entities -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Levels -I/home/l0fi/Documents/SDL2/Engine_0002/includes/Nodes/Systems -isystem /usr/include/SDL2  -o CMakeFiles/Main.dir/src/System.cpp.o -c /home/l0fi/Documents/SDL2/Engine_0002/src/System.cpp",
+  "file": "/home/l0fi/Documents/SDL2/Engine_0002/src/System.cpp"
+}
+]

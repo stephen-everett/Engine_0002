@@ -5,7 +5,7 @@
 // Define path for image assets
 #define LEVEL_ONE_BACKGROUND_PATH "./assets/img/background-main.jpg"
 #define B_START_PATH "./assets/img/StartButton.png"
-#define MAIN_MENU_BACKGROUND_PATH "./assets/img/menu.png"
+#define BG_MAINMENU_PATH "./assets/img/menu.png"
 #define PLAYER_MODEL_PATH "./assets/img/Jet3-1.png"
 #define ENEMY_MODEL1_PATH "./assets/img/Jet.png"
 #define ENEMY_MODEL2_PATH "./assets/img/Jet2.png"
@@ -30,8 +30,10 @@ enum UserEvent
     M_LOAD_MAIN,
     M_RECTFLUSHED,
     M_LOAD_LEVEL_1,
+    MM_EVENT,
     SYS_STAGE_SET,
     SYS_READY,
+    SYS_REQUEST_INIT,
     START_CLICKED
 };
 
@@ -42,7 +44,7 @@ enum TextureIndex
     PLAYER_TEXTURE_INDEX,
     ENEMY_ONE_TEXTURE_INDEX,
     ENEMY_TWO_TEXTURE_INDEX,
-    START_BUTTON_INDEX,
+    INDX_START_BUTTON,
     INDX_TITLE,
     INDX_MOUSE,
     END,

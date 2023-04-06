@@ -84,7 +84,7 @@ void System::setEntity()
 
     allEntities[MAIN_MENU] = new Entity(
             eventBus,
-            MAIN_MENU_BACKGROUND_PATH,
+            BG_MAINMENU_PATH,
             INDX_MAIN_MENU,
             0,0,
             WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -92,10 +92,11 @@ void System::setEntity()
     allEntities[START_BUTTON] = new Button(
             eventBus,allEntities[E_MOUSE],
             B_START_PATH,
-            START_BUTTON_INDEX,
+            INDX_START_BUTTON,
             (WINDOW_WIDTH/2)-150,(WINDOW_HEIGHT/2)-50,
             300,100
             );
+            
 
     allEntities[TITLE] = new Entity(
             eventBus,
@@ -130,6 +131,14 @@ void System::setEntity()
         if(event.user.code == SYS_READY)
         {
             state = READY;
+        }
+        if(event.user.code == MM_EVENT)
+        {
+            printf("--- System received event from MainMenu() inside Map() ---\n");
+        }
+        if(event.user.code == SYS_REQUEST_INIT)
+        {
+            sendEvent(GL_LOAD_INITIAL,&userEvent1,NULL);
         }
     }
     else if (event.type == SDL_KEYDOWN || event.user.code == START_CLICKED)

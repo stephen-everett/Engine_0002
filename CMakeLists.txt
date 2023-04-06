@@ -12,6 +12,10 @@ file(GLOB SOURCES "src/*.cpp")
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/includes
+    ${CMAKE_SOURCE_DIR}/includes/Nodes
+    ${CMAKE_SOURCE_DIR}/includes/Nodes/Entities
+    ${CMAKE_SOURCE_DIR}/includes/Nodes/Levels
+    ${CMAKE_SOURCE_DIR}/includes/Nodes/Systems
     ${SDL2_INCLUDE_DIRS}
     ${SDL2_IMAGE_INCLUDE_DIRS}
     )

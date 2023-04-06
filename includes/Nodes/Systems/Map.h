@@ -6,6 +6,8 @@
 #include <SDL2/SDL_image.h>
 #include "Entity.h"
 #include "Button.h"
+#include "MainMenu.h"
+#include "Mouse.h"
 
 class Map : public BusNode
 {
@@ -20,7 +22,9 @@ class Map : public BusNode
         void clearMap();
         void onNotify(SDL_Event  message);
         Entity** allEntities;
+        MainMenu * mainMenu = NULL;
     private:
+        Mouse * mouse;
 
 };
 
