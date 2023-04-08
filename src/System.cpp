@@ -4,9 +4,18 @@
 
 System::System(){}
 
-System::System(EventBus* eventBus):BusNode(eventBus){}
+System::System(EventBus* eventBus):BusNode(SYSTEM,eventBus)
+{
+    mouse = new Mouse(eventBus);
+}
 
-System::~System(){}
+System::~System()
+{
+    printf("System being destructed!\n");
+    delete mouse;
+    mouse = NULL;
+    eventBus->removeReceiver(SYSTEM);
+}
 
 void System::update(){}
     
@@ -17,9 +26,8 @@ void System::start()
      * Map mainMenu will create and manage Entities
      */
 
-    setEntity(); 
     ResourceManager resourceManager(eventBus);
-    Map mainMenu(eventBus,allEntities);
+    Map mainMenu(eventBus, mouse);
     RenderSystem screen(eventBus);
     
     /* System calls SDL_RegisterEvent() and stores 
@@ -50,70 +58,29 @@ void System::start()
     while(!quit)
     {
         eventBus->notify();
-        if (state == SET_STAGE)
+        if(state == SET_STAGE)
         {
-            printf("--- STATE IS SET_STAGE --- \n");
-            sendEvent(RM_SEND_RESOURCE_LINKS);
+            if(level == 0)
+            {
+                sendEvent(M_LOAD_MAIN);
+                level = 99;
+            }
+            if(level == 1)
+            {
+                sendEvent(M_LOAD_LEVEL_1);
+                level = 99;
+            }
+        }
+        if (state == READY)
+        {
+            sendEvent(E_GET_TEXTURES);
             state = IDLE;
         }
-        else if (state == LOAD_MAIN_MENU && level == 0)
-        {
-            printf("--- STATE IS LOAD_MAIN_MENU---\n");
-            sendEvent(M_LOAD_MAIN);
-            state = IDLE;
-        }
-        else if (state == LOAD_MAIN_MENU && level == 1)
-        {
-            sendEvent(M_LOAD_LEVEL_1);
-            state = IDLE;
-        }
-        else if (state == READY)
-        {
-            screen.draw();
-        }
-        else if(state == IDLE)
-        {
-            printf("--- STATE IDLE ---\n");
-        }
+        screen.draw();
     }
+    
 }
-void System::setEntity()
-{
-    //test.push_back(new Entity(eventBus));
-    allEntities[E_MOUSE] = new Mouse(eventBus);
 
-    allEntities[MAIN_MENU] = new Entity(
-            eventBus,
-            BG_MAINMENU_PATH,
-            INDX_MAIN_MENU,
-            0,0,
-            WINDOW_WIDTH,WINDOW_HEIGHT);
-
-    allEntities[START_BUTTON] = new Button(
-            eventBus,allEntities[E_MOUSE],
-            B_START_PATH,
-            INDX_START_BUTTON,
-            (WINDOW_WIDTH/2)-150,(WINDOW_HEIGHT/2)-50,
-            300,100
-            );
-            
-
-    allEntities[TITLE] = new Entity(
-            eventBus,
-            M_TITLE,
-            INDX_TITLE,
-            0,0,
-            640,200
-            );
-
-    allEntities[LEVEL_1] = new Entity(
-            eventBus,
-            LEVEL_ONE_BACKGROUND_PATH,
-            INDX_LEVEL1_BG,
-            0,0,
-            WINDOW_WIDTH,WINDOW_HEIGHT
-            );
-}
  void System::onNotify(SDL_Event event)
 {
     printf("System onNotify()\n");
@@ -121,8 +88,30 @@ void System::setEntity()
     {
         quit = true;
     }
+
     if(event.type == SDL_USEREVENT)
     {
+        // If level is created, it needs userEvent to send messages
+        if(event.user.code == SYS_LEVEL_LOADED)
+        {
+            sendEvent(GL_LOAD_INITIAL, &userEvent1,NULL);
+        }
+        if(event.user.code == SYS_READY)
+        {
+            state = READY;
+            sendEvent(RM_SEND_RESOURCE_LINKS);
+        }
+        if(event.user.code == START_CLICKED)
+        {
+            sendEvent(RS_NULL_VECTOR);
+        }
+        if(event.user.code == SYS_LEVEL_CLEARED)
+        {
+            state = SET_STAGE;
+            level = 1;
+        }
+    }
+        /*
         if(event.user.code == SYS_STAGE_SET)
         {
             printf("-- STATE IS SYS_STAGE_SET ---\n");
@@ -140,6 +129,8 @@ void System::setEntity()
         {
             sendEvent(GL_LOAD_INITIAL,&userEvent1,NULL);
         }
+        
+        
     }
     else if (event.type == SDL_KEYDOWN || event.user.code == START_CLICKED)
     {
@@ -149,5 +140,6 @@ void System::setEntity()
             level = 1;
         }
     }
+    */
 }
 

@@ -26,14 +26,19 @@ enum UserEvent
     RM_FLUSHRECT,
     RS_LINK_RESOURCES,
     RS_CREATE_TEXTURE,
+    RS_NULL_VECTOR,
     M_WIPE,
     M_LOAD_MAIN,
     M_RECTFLUSHED,
     M_LOAD_LEVEL_1,
     MM_EVENT,
     SYS_STAGE_SET,
+    SYS_LEVEL_LOADED,
+    SYS_LEVEL_RECEIVED_EVENT,
     SYS_READY,
     SYS_REQUEST_INIT,
+    SYS_LEVEL_CLEARED,
+    E_GET_TEXTURES,
     START_CLICKED
 };
 
@@ -56,9 +61,11 @@ enum State
     SET_STAGE,
     LOAD_MAIN_MENU,
     READY,
+    STANDBY,
+    GO,
     IDLE
 };
-
+/*
 enum EntityIndex
 {
     MAIN_MENU = 0,
@@ -67,5 +74,18 @@ enum EntityIndex
     E_MOUSE,
     TITLE,
     NUMBER_OF_ENTITIES,
+};
+*/
+enum TypeEnums
+{
+    ENTITY=0,
+    SYSTEM=100,
+    RESOURCE_MANAGER=200,
+    RENDER_SYSTEM=300,
+    MAINMENU=400,
+    BUTTON=500,
+    MAP=600,
+    MOUSE=700,
+    LEVEL_1 = 800,
 };
 #endif

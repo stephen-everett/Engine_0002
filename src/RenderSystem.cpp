@@ -3,7 +3,7 @@
 //#include "Asset.h"
 RenderSystem::RenderSystem(){}
 
-RenderSystem::RenderSystem(EventBus * eventBus) : BusNode(eventBus)
+RenderSystem::RenderSystem(EventBus * eventBus) : BusNode(RENDER_SYSTEM,eventBus)
 {
     init();
     createWindow();
@@ -94,6 +94,11 @@ void RenderSystem::onNotify(SDL_Event event)
         if(event.user.code == RS_CREATE_TEXTURE)
         {
             createTexture((TextureRect*)event.user.data1);
+        }
+        if(event.user.code == RS_NULL_VECTOR)
+        {
+            loadedRectangles = NULL;
+            sendEvent(RM_FLUSHRECT);
         }
     }
 }

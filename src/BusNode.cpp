@@ -1,10 +1,10 @@
 #include "BusNode.h"
 
 BusNode::BusNode(){}
-BusNode::BusNode(EventBus * eventBus)
+BusNode::BusNode(int tag,EventBus * eventBus)
 {
     this->eventBus = eventBus;
-    this->eventBus->addReceiver(this->getNotifyFunc());
+    this->eventBus->addReceiver(tag,this->getNotifyFunc());
 }
 
 std::function<void (SDL_Event)> BusNode::getNotifyFunc()

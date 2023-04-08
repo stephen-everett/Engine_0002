@@ -2,42 +2,38 @@
 
 Map::Map(){}
 
-Map::Map(EventBus * eventBus, Entity **allEntities) : BusNode(eventBus)
+Map::Map(EventBus * eventBus,Mouse* mouse) : BusNode(MAP,eventBus)
 {
-    this->allEntities = allEntities;
+    this->mouse = mouse;
 }
+Map::Map(EventBus* eventBus):BusNode(MAP,eventBus){}
 
-Map::~Map(){}
+Map::~Map()
+{
+    delete(mainMenu);
+    mainMenu = NULL;
+    delete(levelOne);
+    levelOne = NULL;
+    mouse = NULL;
+    printf("Map being destructed!\n");
+    eventBus->removeReceiver(MAP);
+}
 
 void Map::update(){}
 
 void Map::loadMainMenu()
 {
-    mouse = (Mouse*)allEntities[E_MOUSE];
-    mainMenu = new MainMenu(eventBus);
-    if(mainMenu == NULL)
-    {
-        printf("Problem Loading Main Menu\n");
-    }
-    printf("+++ in Map::loadMainMenu() +++\n");
-    //TextureRect * mainBackground = allEntities[MAIN_MENU]->getRect();
-    //TextureRect * startButton = allEntities[START_BUTTON]->getRect();
-    TextureRect * mouse = allEntities[E_MOUSE]->getRect();
-    TextureRect * Title = allEntities[TITLE]->getRect();
-    //sendEvent(RM_SET_TEXTURE, mainBackground,NULL);
-    //sendEvent(RM_SET_TEXTURE, startButton,NULL);
-    sendEvent(RM_SET_TEXTURE,Title,NULL);
-    sendEvent(RM_SET_TEXTURE, mouse, NULL);
-    sendEvent(SYS_REQUEST_INIT);
-    sendEvent(SYS_READY,NULL,NULL);
+    // make sure to free at some point
+    mainMenu = new MainMenu(eventBus, mouse);
+
+    // Level has been created, let system know
+    sendEvent(SYS_LEVEL_LOADED);
 }
 
 void Map::loadLevel()
 {
-    printf("--- Reached LoadLevel() ---\n");
-    TextureRect * level1Background = allEntities[LEVEL_1]->getRect();
-    sendEvent(RM_SET_TEXTURE, level1Background,NULL);
-    sendEvent(SYS_READY,NULL,NULL);
+    levelOne = new LevelOne(eventBus);
+    sendEvent(SYS_LEVEL_LOADED);
 }
 
 void Map::onNotify(SDL_Event  event)
@@ -51,6 +47,23 @@ void Map::onNotify(SDL_Event  event)
             printf("---Received GL_LOAD_INITIAL event ---\n");
             userEvent1 = *(Uint32*)event.user.data1;
         }
+        if(event.user.code == M_LOAD_MAIN)
+        {
+            printf("---Received M_LOAD_MAIN event ---\n");
+            loadMainMenu();
+        }
+        if(event.user.code == M_RECTFLUSHED)
+        {
+            delete mainMenu;
+            mainMenu = NULL;
+            sendEvent(SYS_LEVEL_CLEARED);
+        }
+        if(event.user.code == M_LOAD_LEVEL_1)
+        {
+            loadLevel();
+        }
+    }
+    /*
         if(event.user.code == M_WIPE)
         {
             printf("--- Received M_WIPE ---\n");
@@ -70,14 +83,16 @@ void Map::onNotify(SDL_Event  event)
         {
             loadLevel();
         }
+
     }
+    */
 }
 
 // Delete entity pointers in backgrounds. Tell resource manager
 // to flush it's rectangle vector
 void Map::clearMap()
 {
-   sendEvent(RM_FLUSHRECT,NULL,NULL);
+  // sendEvent(RM_FLUSHRECT,NULL,NULL);
 }
 
 

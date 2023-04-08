@@ -1,8 +1,9 @@
 #include "ResourceManager.h"
+#include "Button.h"
 
 ResourceManager::ResourceManager(){}
 
-ResourceManager::ResourceManager(EventBus * bus) : BusNode(bus)
+ResourceManager::ResourceManager(EventBus * eventBus) : BusNode(RESOURCE_MANAGER,eventBus)
 {
     for(int i = 0; i < TEXTURE_ARRAY_SIZE; i++)
     {
@@ -22,9 +23,14 @@ void ResourceManager::loadRect(TextureRect* givenRect){}
 
 void ResourceManager::update(){}
 
+void ResourceManager::loadEntities(int level)
+{
+}
+
 void ResourceManager::onNotify(SDL_Event event)
 {
     printf("Resource Manager onNotify()\n");
+    
     if(event.type == SDL_USEREVENT)
     {
         if(event.user.code == GL_LOAD_INITIAL)
@@ -32,6 +38,7 @@ void ResourceManager::onNotify(SDL_Event event)
             printf("---Received GL_LOAD_INITIAL event---\n");
             userEvent1 = *(Uint32*)event.user.data1;
         }
+    
         if(event.user.code == RM_SEND_RESOURCE_LINKS)
         {
             printf("--- Received RM_SEND_RESOURCE_LINKS ---\n");
@@ -46,11 +53,13 @@ void ResourceManager::onNotify(SDL_Event event)
             }
             else
             {
+                printf("index was not null\n");
                 ((TextureRect*)event.user.data1)->texture =
                     loadedTextures[((TextureRect*)event.user.data1)->textureIndex];
                 loadedRectangles.push_back((TextureRect*)event.user.data1);
             }
         }
+        
         if(event.user.code == RM_SAVE_TEXTURE)
         {
             loadedTextures[((TextureRect*)event.user.data1)->textureIndex] =
@@ -68,6 +77,7 @@ void ResourceManager::onNotify(SDL_Event event)
             sendEvent(M_RECTFLUSHED);
         }
     }
+    
 }
 
 // may or may not be issue
@@ -78,10 +88,12 @@ void ResourceManager::flushRect()
 
 void ResourceManager::addTexture(TextureRect* rectangle)
 {
+    /*
     loadedRectangles.push_back(rectangle);
     if(loadedTextures[rectangle->textureIndex] == NULL)
     {
         loadedTextures[rectangle->textureIndex] = rectangle->texture;
     }
+    */
 }
 

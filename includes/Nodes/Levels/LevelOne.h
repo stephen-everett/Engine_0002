@@ -1,25 +1,25 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#ifndef LEVELONE_H
+#define LEVELONE_H
 #include "BusNode.h"
 #include "Entity.h"
 #include "Button.h"
 #include "Mouse.h"
 
 
-class MainMenu : public BusNode
+class LevelOne : public BusNode
 {
     public:
-        MainMenu();
-        MainMenu(EventBus* eventBus,Mouse* mouse);
-        ~MainMenu();
+        LevelOne();
+        LevelOne(EventBus* eventBus);
+        ~LevelOne();
         void update();
        // void requestTextures();
     protected:
         void onNotify(SDL_Event event);
     private:
-        Mouse* mouse;
+        //Mouse* mouse;
         Entity background;
-        Button startButton;
+        //Button startButton;
 
 };
 #endif

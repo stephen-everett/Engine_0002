@@ -8,12 +8,14 @@
 #include "Button.h"
 #include "MainMenu.h"
 #include "Mouse.h"
+#include "LevelOne.h"
 
 class Map : public BusNode
 {
     public:
         Map();
-        Map(EventBus * eventBus, Entity** allEntities);
+        Map(EventBus * eventBus, Mouse* mouse);
+        Map(EventBus* eventBus);
         ~Map();
         void update();
         void loadMainMenu();
@@ -21,10 +23,12 @@ class Map : public BusNode
     protected:
         void clearMap();
         void onNotify(SDL_Event  message);
-        Entity** allEntities;
+        BusNode* holder;
+        Mouse* mouse;
         MainMenu * mainMenu = NULL;
+        LevelOne * levelOne = NULL;
+        Entity * placeHolder;
     private:
-        Mouse * mouse;
 
 };
 

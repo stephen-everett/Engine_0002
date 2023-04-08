@@ -6,9 +6,14 @@ EventBus::EventBus()
 {}
 EventBus::~EventBus(){}
 
-void EventBus::addReceiver(std::function<void (SDL_Event)> eventReceiver)
+void EventBus::addReceiver(int tag,std::function<void (SDL_Event)> eventReceiver)
 {
-    receivers.push_back(eventReceiver);
+    receivers.insert(std::pair<int,std::function<void (SDL_Event)>>(tag,eventReceiver));
+}
+
+void EventBus::removeReceiver(int tag)
+{
+    receivers.erase(tag);
 }
 
 void EventBus::sendMessage(SDL_Event * passedEvent)
@@ -22,7 +27,7 @@ void EventBus::notify()
     {
         for (auto it = receivers.begin(); it != receivers.end(); it++)
         {
-            (*it)(event);
+            it->second(event);
         }
     }
 }

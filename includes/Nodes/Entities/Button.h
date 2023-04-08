@@ -7,6 +7,7 @@ class Button: public Entity
 {
     public:
         Button();
+        Button(EventBus* eventBus);
         Button(EventBus * eventBus,Entity * mouse, const char* path, int index, int x, int y, int w, int h);
         ~Button();
         void update();

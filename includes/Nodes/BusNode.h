@@ -6,7 +6,7 @@ class BusNode
 {
     public:
         BusNode();
-        BusNode(EventBus * eventBus);
+        BusNode(int tag,EventBus * eventBus);
         virtual void update();
         EventBus * getBus();
         void setBus(EventBus * bus);
