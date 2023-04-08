@@ -10,8 +10,9 @@
 #define PATH_ENEMY_MODEL1 "./assets/img/Jet.png"
 #define PATH_ENEMY_MODEL2 "./assets/img/Jet2.png"
 #define PATH_ENEMY_MODEL3 "./assets/img/Jet3.png"
-#define PATH_MOUSE_MODEL "./assets/img/Mouse.png"
+#define PATH_MOUSE_MODEL "./assets/img/cursor.png"
 #define PATH_MAIN_TITLE "./assets/img/Title.png"
+#define PATH_STARS  "./assets/img/stars.png"
 
 #define WINDOWNAME "Game"
 #define WINDOW_HEIGHT 480
@@ -35,19 +36,21 @@ enum UserEvent
     SYS_READY,
     SYS_LEVEL_CLEARED,
     E_GET_TEXTURES,
-    START_CLICKED
+    START_CLICKED,
+    UPDATE
 };
 
 enum TextureIndex
 {
     INDX_MAIN_MENU = 0,
     INDX_LEVEL1_BG,
-    PLAYER_TEXTURE_INDEX,
+    INDX_PLAYER,
     ENEMY_ONE_TEXTURE_INDEX,
     ENEMY_TWO_TEXTURE_INDEX,
     INDX_START_BUTTON,
     INDX_TITLE,
     INDX_MOUSE,
+    INDX_STARS,
     END,
     TEXTURE_ARRAY_SIZE
 };
@@ -83,5 +86,6 @@ enum TypeEnums
     MAP=600,
     MOUSE=700,
     LEVEL_1 = 800,
+    PLAYER = 900,
 };
 #endif

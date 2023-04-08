@@ -77,6 +77,7 @@ void System::start()
             state = IDLE;
         }
         screen.draw();
+        sendEvent(UPDATE);
     }
     
 }

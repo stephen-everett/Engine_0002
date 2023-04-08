@@ -13,12 +13,13 @@ class MainMenu : public BusNode
         MainMenu(EventBus* eventBus,Mouse* mouse);
         ~MainMenu();
         void update();
-       // void requestTextures();
+        void requestTextures();
     protected:
         void onNotify(SDL_Event event);
     private:
+        std::vector<TextureRect> staticAssets;
         Mouse* mouse;
-        Entity background;
+       // TextureRect background;
         Button startButton;
 
 };

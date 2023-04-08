@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Button.h"
 #include "Mouse.h"
+#include "Player.h"
 
 
 class LevelOne : public BusNode
@@ -13,12 +14,14 @@ class LevelOne : public BusNode
         LevelOne(EventBus* eventBus);
         ~LevelOne();
         void update();
-       // void requestTextures();
+        void requestTextures();
     protected:
         void onNotify(SDL_Event event);
     private:
         //Mouse* mouse;
-        Entity background;
+        Player player;
+        std::vector<TextureRect> staticAssets;
+        std::vector<TextureRect> dynamicAssets;
         //Button startButton;
 
 };
