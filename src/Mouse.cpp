@@ -4,7 +4,7 @@ Mouse::Mouse(){}
 
 Mouse::Mouse(EventBus* eventBus): Entity(MOUSE,eventBus)
 {
-    entityData.texturePath = P_MOUSE_MODEL;
+    entityData.texturePath = PATH_MOUSE_MODEL;
     entityData.textureIndex = INDX_MOUSE;
     entityData.dimensions.x = 0;
     entityData.dimensions.y = 0;

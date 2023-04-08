@@ -4,14 +4,14 @@ MainMenu::MainMenu(){}
 
 MainMenu::MainMenu(EventBus* eventBus,Mouse* mouse):BusNode(MAINMENU,eventBus),
     background(eventBus,
-            BG_MAINMENU_PATH,
+            PATH_MAINMENU_BACKGROUND,
             INDX_MAIN_MENU,
             0,0,
             WINDOW_WIDTH,WINDOW_HEIGHT),
     
     startButton(eventBus,
             mouse,
-            B_START_PATH,
+            PATH_BUTTON_START,
             INDX_START_BUTTON,
             200,200,
             300,100)

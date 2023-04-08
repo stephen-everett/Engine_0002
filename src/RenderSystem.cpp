@@ -10,7 +10,11 @@ RenderSystem::RenderSystem(EventBus * eventBus) : BusNode(RENDER_SYSTEM,eventBus
     createRenderer();
 }
 
-
+RenderSystem::~RenderSystem()
+{
+    printf("RenderSystem destructing!");
+    SDL_Quit();
+}
 void RenderSystem::init()
 {
    if((SDL_INIT_VIDEO) < 0)
@@ -89,7 +93,6 @@ void RenderSystem::onNotify(SDL_Event event)
            loadedRectangles = (std::vector<TextureRect*>*)event.user.data1;
            int testSize = loadedRectangles->size();
            printf("--- Size of loadedRectangles: %i\n ---",testSize);
-           sendEvent(M_WIPE);
         }
         if(event.user.code == RS_CREATE_TEXTURE)
         {

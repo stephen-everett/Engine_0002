@@ -7,7 +7,7 @@ LevelOne::~LevelOne()
     eventBus->removeReceiver(LEVEL_1);
 }
 LevelOne::LevelOne(EventBus* eventBus):BusNode(LEVEL_1,eventBus),
-    background(eventBus,LEVEL_ONE_BACKGROUND_PATH,
+    background(eventBus,PATH_LEVEL1_BACKGROUND,
             INDX_LEVEL1_BG,
             0,0,
             WINDOW_WIDTH,WINDOW_HEIGHT)

@@ -1,11 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
 #include "BusNode.h"
-#include "Structs.h"
-#include "TextureRect.h"
-#include <SDL2/SDL_image.h>
-#include "Entity.h"
-#include "Button.h"
 #include "MainMenu.h"
 #include "Mouse.h"
 #include "LevelOne.h"
@@ -23,11 +18,9 @@ class Map : public BusNode
     protected:
         void clearMap();
         void onNotify(SDL_Event  message);
-        BusNode* holder;
-        Mouse* mouse;
+        Mouse* mouse = NULL;
         MainMenu * mainMenu = NULL;
         LevelOne * levelOne = NULL;
-        Entity * placeHolder;
     private:
 
 };

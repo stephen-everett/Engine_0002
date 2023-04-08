@@ -63,36 +63,6 @@ void Map::onNotify(SDL_Event  event)
             loadLevel();
         }
     }
-    /*
-        if(event.user.code == M_WIPE)
-        {
-            printf("--- Received M_WIPE ---\n");
-            clearMap();
-            //sendEvent(SYS_STAGE_SET);
-        }
-        if(event.user.code == M_LOAD_MAIN)
-        {
-            printf("--- Received M_LOAD_MAIN ---\n");
-            loadMainMenu();
-        }
-        if(event.user.code == M_RECTFLUSHED)
-        {
-            sendEvent(SYS_STAGE_SET);
-        }
-        if(event.user.code == M_LOAD_LEVEL_1)
-        {
-            loadLevel();
-        }
-
-    }
-    */
-}
-
-// Delete entity pointers in backgrounds. Tell resource manager
-// to flush it's rectangle vector
-void Map::clearMap()
-{
-  // sendEvent(RM_FLUSHRECT,NULL,NULL);
 }
 
 

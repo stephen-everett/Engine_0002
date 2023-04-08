@@ -14,6 +14,7 @@ class RenderSystem : BusNode
     public:
         RenderSystem();
         RenderSystem(EventBus * eventBus);
+        ~RenderSystem();
         void init();
         void close();
         void createWindow();
@@ -28,7 +29,6 @@ class RenderSystem : BusNode
         SDL_Renderer * renderer = NULL;
         SDL_Surface * surface = NULL;
         SDL_Texture * texture = NULL;
-        SDL_Texture * loadedTextures = NULL;
         std::vector<TextureRect*>* loadedRectangles = NULL;
 
 };

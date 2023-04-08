@@ -3,15 +3,15 @@
 
 
 // Define path for image assets
-#define LEVEL_ONE_BACKGROUND_PATH "./assets/img/background-main.jpg"
-#define B_START_PATH "./assets/img/StartButton.png"
-#define BG_MAINMENU_PATH "./assets/img/menu.png"
-#define PLAYER_MODEL_PATH "./assets/img/Jet3-1.png"
-#define ENEMY_MODEL1_PATH "./assets/img/Jet.png"
-#define ENEMY_MODEL2_PATH "./assets/img/Jet2.png"
-#define ENEMY_MODEL3_Path "./assets/img/Jet3.png"
-#define P_MOUSE_MODEL "./assets/img/Mouse.png"
-#define M_TITLE "./assets/img/Title.png"
+#define PATH_LEVEL1_BACKGROUND "./assets/img/background-main.jpg"
+#define PATH_BUTTON_START "./assets/img/StartButton.png"
+#define PATH_MAINMENU_BACKGROUND "./assets/img/menu.png"
+#define PATH_PLAYERMODEL "./assets/img/Jet3-1.png"
+#define PATH_ENEMY_MODEL1 "./assets/img/Jet.png"
+#define PATH_ENEMY_MODEL2 "./assets/img/Jet2.png"
+#define PATH_ENEMY_MODEL3 "./assets/img/Jet3.png"
+#define PATH_MOUSE_MODEL "./assets/img/Mouse.png"
+#define PATH_MAIN_TITLE "./assets/img/Title.png"
 
 #define WINDOWNAME "Game"
 #define WINDOW_HEIGHT 480
@@ -27,16 +27,12 @@ enum UserEvent
     RS_LINK_RESOURCES,
     RS_CREATE_TEXTURE,
     RS_NULL_VECTOR,
-    M_WIPE,
     M_LOAD_MAIN,
     M_RECTFLUSHED,
     M_LOAD_LEVEL_1,
-    MM_EVENT,
     SYS_STAGE_SET,
     SYS_LEVEL_LOADED,
-    SYS_LEVEL_RECEIVED_EVENT,
     SYS_READY,
-    SYS_REQUEST_INIT,
     SYS_LEVEL_CLEARED,
     E_GET_TEXTURES,
     START_CLICKED

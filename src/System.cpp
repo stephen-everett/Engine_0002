@@ -104,42 +104,12 @@ void System::start()
         if(event.user.code == START_CLICKED)
         {
             sendEvent(RS_NULL_VECTOR);
+            level = 1;
         }
         if(event.user.code == SYS_LEVEL_CLEARED)
         {
             state = SET_STAGE;
-            level = 1;
         }
     }
-        /*
-        if(event.user.code == SYS_STAGE_SET)
-        {
-            printf("-- STATE IS SYS_STAGE_SET ---\n");
-            state = LOAD_MAIN_MENU;
-        }
-        if(event.user.code == SYS_READY)
-        {
-            state = READY;
-        }
-        if(event.user.code == MM_EVENT)
-        {
-            printf("--- System received event from MainMenu() inside Map() ---\n");
-        }
-        if(event.user.code == SYS_REQUEST_INIT)
-        {
-            sendEvent(GL_LOAD_INITIAL,&userEvent1,NULL);
-        }
-        
-        
-    }
-    else if (event.type == SDL_KEYDOWN || event.user.code == START_CLICKED)
-    {
-        if (event.key.keysym.sym == SDLK_k || event.user.code == START_CLICKED)
-        {
-            state = SET_STAGE;
-            level = 1;
-        }
-    }
-    */
 }
 
