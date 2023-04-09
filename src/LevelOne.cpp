@@ -6,9 +6,10 @@ LevelOne::~LevelOne()
     printf("Level 1 being destructed!\n");
     eventBus->removeReceiver(LEVEL_1);
 }
-LevelOne::LevelOne(EventBus* eventBus):BusNode(LEVEL_1,eventBus),
-    player(eventBus)
+LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse):BusNode(LEVEL_1,eventBus),
+    player(eventBus, mouse)
 {
+    this->mouse = mouse;
     // background
     staticAssets.emplace_back(
             PATH_LEVEL1_BACKGROUND,
@@ -47,6 +48,7 @@ void LevelOne::update()
 
 void LevelOne::requestTextures()
 {
+    sendEvent(RM_SET_TEXTURE,mouse->getTextureRect(),NULL);
     for(auto it = staticAssets.begin(); it != staticAssets.end(); it++)
     {
         sendEvent(RM_SET_TEXTURE,&(*it),NULL);
@@ -79,6 +81,10 @@ void LevelOne::onNotify(SDL_Event event)
             printf("UPDATE RECEIVED\n");
             update();
         }
+    }
+    if(event.type == SDL_MOUSEMOTION)
+    {
+        printf("Receieved mouse motion!\n");
     }
 }
 

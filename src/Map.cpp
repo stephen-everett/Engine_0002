@@ -32,7 +32,7 @@ void Map::loadMainMenu()
 
 void Map::loadLevel()
 {
-    levelOne = new LevelOne(eventBus);
+    levelOne = new LevelOne(eventBus, mouse);
     sendEvent(SYS_LEVEL_LOADED);
 }
 

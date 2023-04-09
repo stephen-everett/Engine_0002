@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <cmath>
 
 Player::Player()
     :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-25, WINDOW_HEIGHT-75,50,50)
@@ -10,10 +11,11 @@ Player::~Player()
     eventBus->removeReceiver(PLAYER);
 }
 
-Player::Player(EventBus* eventBus)
+Player::Player(EventBus* eventBus, Mouse* mouse)
     :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-25, WINDOW_HEIGHT-75,50,50)
 {
-
+    this->mouse = mouse;
+    SDL_ShowCursor(SDL_ENABLE);
 }
 
 void Player::update()
@@ -35,6 +37,12 @@ void Player::update()
     {
         entityData.dimensions.x += 10;
     }
+    int centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
+    int centery = entityData.dimensions.y + (entityData.dimensions.y)/ 2;
+    int deltaX = centerx - mousex;
+    int deltaY = centery - mousey;
+    entityData.angle = ((atan2(-deltaX,deltaY)) * (180/3.1416));
+    //entityData.angle = (atan2((mousey - entityData.dimensions.y), (mousex - entityData.dimensions.x)))*(180/3.14);
 }
 
 
@@ -101,6 +109,10 @@ void Player::onNotify(SDL_Event event)
         printf("Received update!\n");
         update();
     }
-    
+    if(event.type == SDL_MOUSEMOTION)
+    {
+        printf("Player received mouse motion!\n");
+       SDL_GetMouseState(&mousex,&mousey);
+    }
 }
 

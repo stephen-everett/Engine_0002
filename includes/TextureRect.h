@@ -6,15 +6,24 @@ struct TextureRect
 {
     const char * texturePath;
     int textureIndex;
+    double angle = 0;
     SDL_Texture * texture;
     SDL_Rect dimensions;
 
-    TextureRect(){}
+    TextureRect()
+    {
+        texturePath = NULL;
+        textureIndex = 0;
+        double angle = 0;
+        texture = NULL;
+
+    }
     TextureRect(const char* path, int index, int x, int y, int w, int h)
     {
         texturePath = path;
         textureIndex = index;
         texture = NULL;
+        double angle = 0;
         dimensions.x = x;
         dimensions.y = y;
         dimensions.w = w;

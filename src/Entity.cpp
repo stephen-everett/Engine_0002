@@ -70,3 +70,8 @@ void Entity::onNotify(SDL_Event event)
         }
     }
 }
+
+TextureRect* Entity::getTextureRect()
+{
+    return &entityData;
+}

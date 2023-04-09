@@ -70,7 +70,9 @@ void RenderSystem::draw()
         {
             texture = (*it)->texture;
             SDL_Rect rect = (*it)->dimensions;
-            SDL_RenderCopy(renderer,texture,NULL,&rect);
+            int angle = (*it)->angle;
+            SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,NULL,SDL_FLIP_NONE);
+            //SDL_RenderCopy(renderer,texture,NULL,&rect);
         }
     }
  
