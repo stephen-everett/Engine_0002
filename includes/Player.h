@@ -10,6 +10,7 @@ class Player : public Entity
         ~Player();
         Player(EventBus* eventBus, Mouse* mouse);
         void update();
+        void fire();
     private:
         void onNotify(SDL_Event event);
         bool movingUp = false;
@@ -19,6 +20,23 @@ class Player : public Entity
         Mouse* mouse;
         int mousex;
         int mousey;
+
+        int centerx;
+        int centery;
+
+        int deltaX;
+        int deltaY;
+
+        double angle;
+
+        int speedUp;
+        int speedDown;
+        int speedLeft;
+        int speedRight;
+        int frameCounter;
+
+        std::vector<TextureRect> magazine;
+        std::vector<TextureRect> fired;
 
 
 };

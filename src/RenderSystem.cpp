@@ -68,11 +68,18 @@ void RenderSystem::draw()
         printf("--- Size of loadedRectangles in RS::draw() : %i\n",temp);
         for(auto it = loadedRectangles->begin(); it != loadedRectangles->end();++it)
         {
+            bool enabled = (*it)->enabled;
             texture = (*it)->texture;
             SDL_Rect rect = (*it)->dimensions;
             int angle = (*it)->angle;
-            SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,NULL,SDL_FLIP_NONE);
-            //SDL_RenderCopy(renderer,texture,NULL,&rect);
+            if(enabled)
+            {
+                SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,NULL,SDL_FLIP_NONE);
+                SDL_RenderDrawRect(renderer, &rect);
+                SDL_RenderDrawLine(renderer,rect.x + (rect.w/2), rect.y, rect.x+(rect.w/2),rect.y+rect.h);
+                SDL_RenderDrawLine(renderer, rect.x,rect.y+(rect.h/2),rect.x+rect.w,rect.y+(rect.h/2));
+               // SDL_RenderCopy(renderer,texture,NULL,&rect);
+            }
         }
     }
  

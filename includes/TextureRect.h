@@ -9,6 +9,10 @@ struct TextureRect
     double angle = 0;
     SDL_Texture * texture;
     SDL_Rect dimensions;
+    SDL_Rect drawRect;
+    bool enabled = true;
+    int pathX;
+    int pathY;
 
     TextureRect()
     {
@@ -28,6 +32,19 @@ struct TextureRect
         dimensions.y = y;
         dimensions.w = w;
         dimensions.h = h;
+    }
+
+    TextureRect(const char* path, int index, int x, int y, int w, int h,bool enabled)
+    {
+        texturePath = path;
+        textureIndex = index;
+        texture = NULL;
+        double angle = 0;
+        dimensions.x = x;
+        dimensions.y = y;
+        dimensions.w = w;
+        dimensions.h = h;
+        this->enabled = enabled;
     }
 };
 

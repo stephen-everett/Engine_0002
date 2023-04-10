@@ -13,10 +13,16 @@
 #define PATH_MOUSE_MODEL "./assets/img/cursor.png"
 #define PATH_MAIN_TITLE "./assets/img/Title.png"
 #define PATH_STARS  "./assets/img/stars.png"
+#define PATH_BULLET "./assets/img/bullet.png"
 
 #define WINDOWNAME "Game"
-#define WINDOW_HEIGHT 480
-#define WINDOW_WIDTH 640
+//#define WINDOW_HEIGHT 600
+//#define WINDOW_WIDTH 800
+//#define WINDOW_HEIGHT 480
+//#define WINDOW_WIDTH 640
+
+#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 1280
 
 enum UserEvent
 {
@@ -51,6 +57,7 @@ enum TextureIndex
     INDX_TITLE,
     INDX_MOUSE,
     INDX_STARS,
+    INDX_BULLET,
     END,
     TEXTURE_ARRAY_SIZE
 };
