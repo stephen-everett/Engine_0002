@@ -1,6 +1,7 @@
 #include "System.h"
 #include "ResourceManager.h"
 #include "RenderSystem.h"
+#include "CollisionSystem.h"
 
 System::System(){}
 
@@ -27,6 +28,7 @@ void System::start()
      */
 
     ResourceManager resourceManager(eventBus);
+    CollisionSystem collisionSystem(eventBus);
     Map mainMenu(eventBus, mouse);
     RenderSystem screen(eventBus);
     
@@ -106,6 +108,11 @@ void System::start()
         {
             sendEvent(RS_NULL_VECTOR);
             level = 1;
+        }
+        if(event.user.code == SYS_LOAD_MAIN)
+        {
+            sendEvent(RS_NULL_VECTOR);
+            level = 0;
         }
         if(event.user.code == SYS_LEVEL_CLEARED)
         {

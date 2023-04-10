@@ -30,6 +30,8 @@ class RenderSystem : BusNode
         SDL_Surface * surface = NULL;
         SDL_Texture * texture = NULL;
         std::vector<TextureRect*>* loadedRectangles = NULL;
+        std::vector<TextureRect*>* playerColliders = NULL;
+        std::vector<TextureRect*>* enemyColliders = NULL;
 
 };
 

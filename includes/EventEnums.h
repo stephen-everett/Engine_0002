@@ -34,6 +34,7 @@ enum UserEvent
     RS_LINK_RESOURCES,
     RS_CREATE_TEXTURE,
     RS_NULL_VECTOR,
+    RS_LOAD_COLLIDERS,
     M_LOAD_MAIN,
     M_RECTFLUSHED,
     M_LOAD_LEVEL_1,
@@ -41,7 +42,10 @@ enum UserEvent
     SYS_LEVEL_LOADED,
     SYS_READY,
     SYS_LEVEL_CLEARED,
+    SYS_LOAD_MAIN,
     E_GET_TEXTURES,
+    CS_LOAD_COLLIDER,
+    CS_FLUSHRECT,
     START_CLICKED,
     UPDATE
 };
@@ -71,17 +75,12 @@ enum State
     GO,
     IDLE
 };
-/*
-enum EntityIndex
+
+enum ColliderTags
 {
-    MAIN_MENU = 0,
-    START_BUTTON,
-    LEVEL_1,
-    E_MOUSE,
-    TITLE,
-    NUMBER_OF_ENTITIES,
+    COLLIDER_PLAYER,
+    COLLIDER_ENEMY
 };
-*/
 enum TypeEnums
 {
     ENTITY=0,
@@ -94,5 +93,6 @@ enum TypeEnums
     MOUSE=700,
     LEVEL_1 = 800,
     PLAYER = 900,
+    COLLISION_SYSTEM = 1000,
 };
 #endif

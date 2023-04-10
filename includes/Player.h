@@ -11,6 +11,7 @@ class Player : public Entity
         Player(EventBus* eventBus, Mouse* mouse);
         void update();
         void fire();
+        void sendColliders();
     private:
         void onNotify(SDL_Event event);
         bool movingUp = false;
@@ -34,6 +35,9 @@ class Player : public Entity
         int speedLeft;
         int speedRight;
         int frameCounter;
+
+        int rotationPointOffsetX;
+        int rotationPointOffsetY;
 
         std::vector<TextureRect> magazine;
         std::vector<TextureRect> fired;

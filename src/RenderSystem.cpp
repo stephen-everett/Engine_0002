@@ -74,11 +74,40 @@ void RenderSystem::draw()
             int angle = (*it)->angle;
             if(enabled)
             {
-                SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,NULL,SDL_FLIP_NONE);
-                SDL_RenderDrawRect(renderer, &rect);
-                SDL_RenderDrawLine(renderer,rect.x + (rect.w/2), rect.y, rect.x+(rect.w/2),rect.y+rect.h);
-                SDL_RenderDrawLine(renderer, rect.x,rect.y+(rect.h/2),rect.x+rect.w,rect.y+(rect.h/2));
+                SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,&(*it)->rotationPoint,SDL_FLIP_NONE);
+                //SDL_RenderDrawRect(renderer, &rect);
+                //SDL_RenderDrawLine(renderer,rect.x + (rect.w/2), rect.y, rect.x+(rect.w/2),rect.y+rect.h);
+                //SDL_RenderDrawLine(renderer, rect.x,rect.y+(rect.h/2),rect.x+rect.w,rect.y+(rect.h/2));
                // SDL_RenderCopy(renderer,texture,NULL,&rect);
+            }
+        }
+    }
+
+    if (playerColliders != NULL)
+    {
+        int temp = playerColliders->size();
+        printf("--- Size of playerColliders in RS::draw() : %i\n",temp);
+        for(auto it = playerColliders->begin(); it != playerColliders->end();++it)
+        {
+            bool enabled = (*it)->enabled;
+            SDL_Rect rect = (*it)->colliderRect;
+            if(enabled)
+            {
+                SDL_RenderDrawRect(renderer, &rect);
+            }
+        }
+    }
+    if (enemyColliders != NULL)
+    {
+        int temp = enemyColliders->size();
+        printf("--- Size of enemyColliders in RS::draw() : %i\n",temp);
+        for(auto it = enemyColliders->begin(); it != enemyColliders->end();++it)
+        {
+            bool enabled = (*it)->enabled;
+            SDL_Rect rect = (*it)->colliderRect;
+            if(enabled)
+            {
+                SDL_RenderDrawRect(renderer, &rect);
             }
         }
     }
@@ -110,7 +139,15 @@ void RenderSystem::onNotify(SDL_Event event)
         if(event.user.code == RS_NULL_VECTOR)
         {
             loadedRectangles = NULL;
+            playerColliders = NULL;
+            enemyColliders = NULL;
             sendEvent(RM_FLUSHRECT);
+            sendEvent(CS_FLUSHRECT);
+        }
+        if(event.user.code == RS_LOAD_COLLIDERS)
+        {
+            playerColliders = (std::vector<TextureRect*>*)event.user.data1;
+            enemyColliders = (std::vector<TextureRect*>*)event.user.data2;
         }
     }
 }

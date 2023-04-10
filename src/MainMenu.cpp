@@ -25,8 +25,8 @@ MainMenu::MainMenu(EventBus* eventBus,Mouse* mouse):BusNode(MAINMENU,eventBus),
     staticAssets.emplace_back(
             PATH_MAIN_TITLE,
             INDX_TITLE,
-            0,0,
-            WINDOW_WIDTH,
+            WINDOW_WIDTH/2-320,0,
+            640,
             200);
 
     printf("Main menu created!\n");

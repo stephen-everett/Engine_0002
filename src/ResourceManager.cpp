@@ -93,5 +93,6 @@ void ResourceManager::onNotify(SDL_Event event)
 void ResourceManager::flushRect()
 {
     loadedRectangles.clear();
+    printf("Size of loadedRectangles after flush: %i\n",(int)loadedRectangles.size());
 }
 

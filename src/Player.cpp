@@ -21,6 +21,8 @@ Player::Player(EventBus* eventBus, Mouse* mouse)
     speedLeft = 0;
     speedRight = 0;
     frameCounter = 0;
+    rotationPointOffsetX = 0;
+    rotationPointOffsetY = 0;
     for (int i = 0; i < 30; i++)
     {
         magazine.emplace_back(
@@ -35,18 +37,46 @@ Player::Player(EventBus* eventBus, Mouse* mouse)
 void Player::fire()
 {
    bool fired = false;
+   bool firedLeft = false;
    for(auto it = magazine.begin(); it != magazine.end(); it++)
    {
        if(!fired)
        {
            if(it->enabled == false)
            {
-               it->enabled = true;
-               it->dimensions.x = entityData.dimensions.x + (entityData.dimensions.w/2-10);
-               it->dimensions.y = entityData.dimensions.y;
-               it->pathX = 25*sin(angle);
-               it->pathY = 25*cos(angle);
-               fired = true;
+               if(!firedLeft)
+               {
+                   
+                   it->enabled = true;
+                   //it->dimensions.x = entityData.dimensions.x + sin(angle);
+                   //it->dimensions.y = entityData.dimensions.y + 2*cos(angle);
+                   it->dimensions.x = entityData.dimensions.x+10;
+                   it->dimensions.y = entityData.dimensions.y + 15;
+                   it->rotationPoint.x = entityData.rotationPoint.x-10;
+                   it->rotationPoint.y = entityData.rotationPoint.y-20;
+                   it->colliderRect.x = entityData.dimensions.x;
+                   it->colliderRect.y = entityData.dimensions.y;
+                   it->angle = entityData.angle;
+                   it->pathX = 25*sin(angle);
+                   it->pathY = 25*cos(angle);
+                   
+                   firedLeft = true;
+               }
+               else
+               {
+                   it->enabled = true;
+                   it->dimensions.x = entityData.dimensions.x+75;
+                   it->dimensions.y = entityData.dimensions.y + 15;
+                   it->rotationPoint.x = entityData.rotationPoint.x-80;
+                   it->rotationPoint.y = entityData.rotationPoint.y-15;
+                   it->colliderRect.x = entityData.dimensions.x+50;
+                   it->colliderRect.y = entityData.dimensions.y;
+                   it->angle = entityData.angle;
+                   it->pathX = 25*sin(angle);
+                   it->pathY = 25*cos(angle);
+                   fired = true;
+
+               }
            }
        }
    }
@@ -54,6 +84,21 @@ void Player::fire()
 
 void Player::update()
 {
+    printf("Rotation Offset X: %i\n",rotationPointOffsetX);
+    printf("Rotation Offset Y: %i\n", rotationPointOffsetY); 
+    centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
+    centery = entityData.dimensions.y + (entityData.dimensions.y)/ 2;
+
+    deltaX = centerx - mousex;
+    deltaY = centery - mousey;
+
+    angle = atan2(-deltaX,deltaY);
+    entityData.angle = (angle) * (180.0000000000/3.1416);
+
+    double slope = tan(angle);
+
+    entityData.rotationPoint.x = entityData.dimensions.w/2;
+    entityData.rotationPoint.y = entityData.dimensions.h/2;
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
         if(it->dimensions.x < 0 || it->dimensions.x > WINDOW_WIDTH)
@@ -71,29 +116,21 @@ void Player::update()
         }
     }
 
-    if(frameCounter == 10)
+    if(frameCounter == 7)
     {
         frameCounter = 0;
     }
     frameCounter++;
-    centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
-    centery = entityData.dimensions.y + (entityData.dimensions.y)/ 2;
-    deltaX = centerx - mousex;
-    deltaY = centery - mousey;
-  //  entityData.dimensions.y = WINDOW_HEIGHT/2-50;
-    angle = atan2(-deltaX,deltaY);
-    entityData.angle = (angle) * (180.0000000000/3.1416);
-    //entityData.angle = 90;
-    double slope = tan(angle);
+
     if(movingUp)
     {
-        if(frameCounter == 10)
+        if(frameCounter == 7)
         {
             speedUp++;
         }
-        if(speedUp > 5)
+        if(speedUp > 7)
         {
-            speedUp = 5;
+            speedUp = 7;
         }
         int y = speedUp * cos(angle);
         int x = speedUp * sin(angle);
@@ -117,19 +154,53 @@ void Player::update()
     }
     if(movingDown)
     {
-        entityData.dimensions.y += 10;
+        
+        if(frameCounter == 7)
+        {
+            speedDown++;
+        }
+        if(speedDown > 7)
+        {
+            speedDown = 7;
+        }
+        entityData.dimensions.y += speedDown;
     }
     if(movingLeft)
     {
-        entityData.dimensions.x -= 10;
+        if(frameCounter == 7)
+        {
+            speedLeft++;
+        }
+        if(speedLeft > 7)
+        {
+            speedLeft = 7;
+        }
+        entityData.dimensions.x -= speedLeft;
     }
     if(movingRight)
     {
-        entityData.dimensions.x += 10;
+        if(frameCounter == 7)
+        {
+            speedRight++;
+        }
+        if(speedRight > 7)
+        {
+            speedRight = 7;
+        }
+        entityData.dimensions.x += speedRight;
     }
     //entityData.angle = (atan2((mousey - entityData.dimensions.y), (mousex - entityData.dimensions.x)))*(180/3.14);
 }
 
+void Player::sendColliders()
+{
+    entityData.colliderTag = COLLIDER_PLAYER;
+    sendEvent(CS_LOAD_COLLIDER,&entityData,NULL);
+    for(auto it = magazine.begin(); it != magazine.end(); it++)
+    {
+        sendEvent(CS_LOAD_COLLIDER,&(*it),NULL);
+    }
+}
 
 void Player::onNotify(SDL_Event event)
 {
@@ -140,6 +211,7 @@ void Player::onNotify(SDL_Event event)
         {
             printf("Button GL_LOAD_INITIAL\n");
             userEvent1 = *(Uint32*)event.user.data1;
+            sendColliders();
         }
         if(event.user.code == E_GET_TEXTURES)
         {
@@ -171,6 +243,22 @@ void Player::onNotify(SDL_Event event)
         {
             movingRight = true;
         }
+        if(event.key.keysym.sym == SDLK_t)
+        {
+            rotationPointOffsetY += 10;
+        }
+        if(event.key.keysym.sym == SDLK_f)
+        {
+            rotationPointOffsetX -= 10;
+        }
+        if(event.key.keysym.sym == SDLK_g)
+        {
+            rotationPointOffsetY -= 10;
+        }
+        if(event.key.keysym.sym == SDLK_h)
+        {
+            rotationPointOffsetX += 10;
+        }
     }
     if(event.type == SDL_KEYUP)
     {
@@ -183,14 +271,17 @@ void Player::onNotify(SDL_Event event)
         if(event.key.keysym.sym == SDLK_a)
         {
             movingLeft = false;
+            speedLeft = 0;
         }
         if(event.key.keysym.sym == SDLK_s)
         {
             movingDown = false;
+            speedDown = 0;
         }
         if(event.key.keysym.sym == SDLK_d)
         {
             movingRight = false;
+            speedRight = 0;
         }
 
     }

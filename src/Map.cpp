@@ -56,11 +56,20 @@ void Map::onNotify(SDL_Event  event)
         {
             delete mainMenu;
             mainMenu = NULL;
+            delete levelOne;
+            levelOne = NULL;
             sendEvent(SYS_LEVEL_CLEARED);
         }
         if(event.user.code == M_LOAD_LEVEL_1)
         {
             loadLevel();
+        }
+    }
+    if(event.type == SDL_KEYDOWN)
+    {
+        if(event.key.keysym.sym == SDLK_0)
+        {
+            sendEvent(SYS_LOAD_MAIN,NULL,NULL);
         }
     }
 }
