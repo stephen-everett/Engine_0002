@@ -13,6 +13,7 @@ class CollisionSystem: public BusNode
         void onNotify(SDL_Event event);
         void flushRect();
         void loadCollider(TextureRect* collider);
+        void update();
     private:
         std::vector<TextureRect* > playerColliders;
         std::vector<TextureRect* > enemyColliders;

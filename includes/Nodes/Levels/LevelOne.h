@@ -22,6 +22,7 @@ class LevelOne : public BusNode
         Player player;
         std::vector<TextureRect> staticAssets;
         std::vector<TextureRect> dynamicAssets;
+        Entity colliderTester;
         //Button startButton;
 
 };

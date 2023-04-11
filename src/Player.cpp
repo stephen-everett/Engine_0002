@@ -50,12 +50,14 @@ void Player::fire()
                    it->enabled = true;
                    //it->dimensions.x = entityData.dimensions.x + sin(angle);
                    //it->dimensions.y = entityData.dimensions.y + 2*cos(angle);
-                   it->dimensions.x = entityData.dimensions.x+10;
-                   it->dimensions.y = entityData.dimensions.y + 15;
-                   it->rotationPoint.x = entityData.rotationPoint.x-10;
-                   it->rotationPoint.y = entityData.rotationPoint.y-20;
-                   it->colliderRect.x = entityData.dimensions.x;
-                   it->colliderRect.y = entityData.dimensions.y;
+                   //it->dimensions.x = entityData.dimensions.x+10;
+                   //it->dimensions.y = entityData.dimensions.y + 15;
+                   it->dimensions.x = centerx - 28*cos(angle) -10;
+                   it->dimensions.y = centery - 28*sin(angle) -10;
+                   //it->rotationPoint.x = entityData.rotationPoint.x-10;
+                   //it->rotationPoint.y = entityData.rotationPoint.y-20;
+                   //it->colliderRect.x = centerx + 28*cos(angle)-5 ;//entityData.dimensions.x+sin(angle);
+                   //it->colliderRect.y = centery + 28*sin(angle)-5 ;//entityData.dimensions.y+cos(angle);;
                    it->angle = entityData.angle;
                    it->pathX = 25*sin(angle);
                    it->pathY = 25*cos(angle);
@@ -64,17 +66,19 @@ void Player::fire()
                }
                else
                {
+                   
                    it->enabled = true;
-                   it->dimensions.x = entityData.dimensions.x+75;
-                   it->dimensions.y = entityData.dimensions.y + 15;
-                   it->rotationPoint.x = entityData.rotationPoint.x-80;
-                   it->rotationPoint.y = entityData.rotationPoint.y-15;
-                   it->colliderRect.x = entityData.dimensions.x+50;
-                   it->colliderRect.y = entityData.dimensions.y;
+                   it->dimensions.x = centerx + 28*cos(angle) -5;//entityData.dimensions.x+75;
+                   it->dimensions.y = centery + 28*sin(angle) -5;//entityData.dimensions.y + 15;
+                   //it->rotationPoint.x = entityData.rotationPoint.x-80;
+                   //it->rotationPoint.y = entityData.rotationPoint.y-15;
+                   //it->colliderRect.x = entityData.dimensions.x+50;
+                   //it->colliderRect.y = entityData.dimensions.y;
                    it->angle = entityData.angle;
                    it->pathX = 25*sin(angle);
                    it->pathY = 25*cos(angle);
                    fired = true;
+                   
 
                }
            }
@@ -87,7 +91,7 @@ void Player::update()
     printf("Rotation Offset X: %i\n",rotationPointOffsetX);
     printf("Rotation Offset Y: %i\n", rotationPointOffsetY); 
     centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
-    centery = entityData.dimensions.y + (entityData.dimensions.y)/ 2;
+    centery = entityData.dimensions.y + (entityData.dimensions.h)/ 2;
 
     deltaX = centerx - mousex;
     deltaY = centery - mousey;
@@ -198,6 +202,7 @@ void Player::sendColliders()
     sendEvent(CS_LOAD_COLLIDER,&entityData,NULL);
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
+        it->colliderTag = COLLIDER_PLAYER;
         sendEvent(CS_LOAD_COLLIDER,&(*it),NULL);
     }
 }

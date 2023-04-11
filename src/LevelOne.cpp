@@ -7,7 +7,7 @@ LevelOne::~LevelOne()
     eventBus->removeReceiver(LEVEL_1);
 }
 LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse):BusNode(LEVEL_1,eventBus),
-    player(eventBus, mouse)
+    player(eventBus, mouse), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50)
 {
     this->mouse = mouse;
     // background
@@ -44,6 +44,14 @@ void LevelOne::update()
         }
         it->dimensions.y += 10;
     }
+    if(colliderTester.getTextureRect()->isCollided)
+    {
+        printf("Collision Detected! Number of collisions: %i\n",colliderTester.getTextureRect()->collisionCount);
+    }
+    else
+    {
+        printf("Collision not detected! Number of collisoins: %i\n",colliderTester.getTextureRect()->collisionCount);
+    }
 }
 
 void LevelOne::requestTextures()
@@ -58,6 +66,9 @@ void LevelOne::requestTextures()
     {
         sendEvent(RM_SET_TEXTURE,&(*it),NULL);
     }
+    sendEvent(RM_SET_TEXTURE,colliderTester.getTextureRect(),NULL);
+    colliderTester.setCollision(COLLIDER_ENEMY);
+    sendEvent(CS_LOAD_COLLIDER,colliderTester.getTextureRect(),NULL);
     
 }
 

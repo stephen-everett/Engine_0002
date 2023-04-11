@@ -14,6 +14,7 @@
 #define PATH_MAIN_TITLE "./assets/img/Title.png"
 #define PATH_STARS  "./assets/img/stars.png"
 #define PATH_BULLET "./assets/img/bullet.png"
+#define PATH_COLLIDERTESTER "./assets/img/collidertester.png"
 
 #define WINDOWNAME "Game"
 //#define WINDOW_HEIGHT 600
@@ -62,6 +63,7 @@ enum TextureIndex
     INDX_MOUSE,
     INDX_STARS,
     INDX_BULLET,
+    INDX_COLLIDERTESTER,
     END,
     TEXTURE_ARRAY_SIZE
 };

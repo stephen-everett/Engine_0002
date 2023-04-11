@@ -15,6 +15,7 @@ class Entity : public BusNode
         void requestTextures();
         TextureRect* getRect();
         TextureRect * getTextureRect();
+        void setCollision(int collisionStatus);
     protected:
         void onNotify(SDL_Event event);
         TextureRect  entityData;

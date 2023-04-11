@@ -43,6 +43,11 @@ void Entity::requestTextures()
 {
    sendEvent(RM_SET_TEXTURE,&entityData,NULL); 
 }
+
+void Entity::setCollision(int collisionStatus)
+{
+    entityData.colliderTag = collisionStatus;
+}
 void Entity::update(){}
 
 TextureRect* Entity::getRect()

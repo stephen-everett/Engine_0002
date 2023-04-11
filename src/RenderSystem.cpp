@@ -82,7 +82,7 @@ void RenderSystem::draw()
             }
         }
     }
-
+/*
     if (playerColliders != NULL)
     {
         int temp = playerColliders->size();
@@ -90,7 +90,7 @@ void RenderSystem::draw()
         for(auto it = playerColliders->begin(); it != playerColliders->end();++it)
         {
             bool enabled = (*it)->enabled;
-            SDL_Rect rect = (*it)->colliderRect;
+            SDL_Rect rect = (*it)->dimensions;
             if(enabled)
             {
                 SDL_RenderDrawRect(renderer, &rect);
@@ -104,13 +104,14 @@ void RenderSystem::draw()
         for(auto it = enemyColliders->begin(); it != enemyColliders->end();++it)
         {
             bool enabled = (*it)->enabled;
-            SDL_Rect rect = (*it)->colliderRect;
+            SDL_Rect rect = (*it)->dimensions;
             if(enabled)
             {
                 SDL_RenderDrawRect(renderer, &rect);
             }
         }
     }
+    */
  
     SDL_RenderPresent(renderer);
     SDL_Delay(17);

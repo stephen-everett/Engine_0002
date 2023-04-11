@@ -24,6 +24,26 @@ void CollisionSystem::loadCollider(TextureRect* collider)
     }
 }
 
+void CollisionSystem::update()
+{
+    for(auto it = playerColliders.begin(); it != playerColliders.end(); it++)
+    {
+        if((*it)->enabled == true)
+        {
+            for(auto yt = enemyColliders.begin(); yt != enemyColliders.end(); yt++)
+            {
+                (*yt)->isCollided = false;
+                if(SDL_HasIntersection(&(*it)->dimensions,&(*yt)->dimensions))
+                {
+                    (*it)->enabled = false;
+                    (*yt)->isCollided = true;
+                    (*yt)->collisionCount++;
+                }
+            }
+        }
+    }
+}
+
 void CollisionSystem::flushRect()
 {
     playerColliders.clear();
