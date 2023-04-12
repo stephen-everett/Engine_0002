@@ -7,6 +7,7 @@
 #include <map>
 #include "EventEnums.h"
 #include "TextureRect.h"
+#include "GameTime.h"
 
 class EventBus
 {

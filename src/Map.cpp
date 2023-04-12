@@ -1,12 +1,13 @@
 #include "Map.h"
 
-Map::Map(){}
+//Map::Map(){}
 
-Map::Map(EventBus * eventBus,Mouse* mouse) : BusNode(MAP,eventBus)
+Map::Map(EventBus * eventBus,Mouse* mouse, GameTime* clock) : BusNode(MAP,eventBus)
 {
     this->mouse = mouse;
+    this->clock = clock;
 }
-Map::Map(EventBus* eventBus):BusNode(MAP,eventBus){}
+//Map::Map(EventBus* eventBus):BusNode(MAP,eventBus){}
 
 Map::~Map()
 {
@@ -32,7 +33,7 @@ void Map::loadMainMenu()
 
 void Map::loadLevel()
 {
-    levelOne = new LevelOne(eventBus, mouse);
+    levelOne = new LevelOne(eventBus, mouse,clock);
     sendEvent(SYS_LEVEL_LOADED);
 }
 

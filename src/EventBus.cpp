@@ -1,6 +1,7 @@
 #include "EventBus.h"
 #include "BusNode.h"
 #include "Structs.h"
+#include "GameTime.h"
 
 EventBus::EventBus()
 {}

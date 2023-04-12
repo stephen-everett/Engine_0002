@@ -11,10 +11,11 @@ Player::~Player()
     eventBus->removeReceiver(PLAYER);
 }
 
-Player::Player(EventBus* eventBus, Mouse* mouse)
+Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
     :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,100,100),
     locationFinder()
 {
+    this->clock = clock;
     this->mouse = mouse;
     SDL_ShowCursor(SDL_ENABLE);
     speedLimit = 7;
@@ -25,8 +26,6 @@ Player::Player(EventBus* eventBus, Mouse* mouse)
     frameCounter = 0;
     rotationPointOffsetX = 0;
     rotationPointOffsetY = 0;
-    extern double GlobalTime;
-    secondLater = GlobalTime + .08;
     for (int i = 0; i < 30; i++)
     {
         magazine.emplace_back(
@@ -95,15 +94,8 @@ void Player::fire()
    }
 }
 
-void Player::update()
+void Player::updatePositions()
 {
-    extern double GlobalTime;
-    printf("Current Global Time: %0.2f\n",GlobalTime);
-    if(frameCounter == 7)
-    {
-        frameCounter = 0;
-    }
-    frameCounter++;
     printf("Rotation Offset X: %i\n",rotationPointOffsetX);
     printf("Rotation Offset Y: %i\n", rotationPointOffsetY); 
     centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
@@ -126,7 +118,10 @@ void Player::update()
     locationFinder.dimensions.x = centerx + 34*cos(angle-2.722);
     locationFinder.dimensions.y = centery + 34*sin(angle-2.722);
 
+}
 
+void Player::updateProjectiles()
+{
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
         if(it->dimensions.x < 0 || it->dimensions.x > WINDOW_WIDTH)
@@ -142,17 +137,24 @@ void Player::update()
             it->dimensions.x += it->pathX;
             it->dimensions.y -= it->pathY;
         }
-        printf("SecondLater: %0.2f\n",secondLater);
-        calculateTrajectory();
-        if( GlobalTime > secondLater)
-        {
-            move();
-            printf("Inside Second calculator\n");
-            secondLater = GlobalTime + .0125;
-        }
-        //move();
     }
+}
 
+void Player::update()
+{
+    updatePositions();
+    calculateTrajectory();
+    if(clock->isTime())
+    {
+        move();
+        updateProjectiles();
+       
+        printf("Inside Second calculator\n");
+    }
+    else
+    {
+        printf("Not time yet\n");
+    }
 }
 
 void Player::calculateTrajectory()
@@ -183,8 +185,26 @@ void Player::moveUp()
         printf("y location: %i " ,entityData.dimensions.y);
         printf("x step: %0.2f ", (speedUp * trajectoryX));
         printf("y step: %0.2f ", (speedUp * trajectoryY));
-        entityData.dimensions.x += (int)(speedUp * trajectoryX);
-        entityData.dimensions.y -= (int)(speedUp * trajectoryY);
+        double xStep = speedUp * trajectoryX;
+        if (xStep > speedLimit)
+        {
+            xStep = speedLimit;
+        }
+        else if (xStep > 0.5 && xStep < 1)
+        {
+            xStep = 1;
+        }
+        double yStep = speedUp * trajectoryY;
+        if(yStep > speedLimit)
+        {
+            yStep = speedLimit;
+        }
+        else if (yStep > 0.5 && yStep < 1)
+        {
+            yStep = 1;
+        }
+        entityData.dimensions.x +=  xStep;//(int)(speedUp * trajectoryX);
+        entityData.dimensions.y -=  yStep;//(int)(speedUp * trajectoryY);
 
         printf("Entity angle: %.2f ",entityData.angle);
         printf("Radian angle: %.2f \n", angle);
@@ -197,13 +217,10 @@ void Player::moveDown()
     if(movingDown)
     {
         printf("Moving Down!\n");
-        if(frameCounter == 7)
+        speedDown++;
+        if(speedDown > speedLimit)
         {
-            speedDown++;
-            if(speedDown > speedLimit)
-            {
-                speedDown = speedLimit;
-            }
+            speedDown = speedLimit;
         }
         entityData.dimensions.y += speedDown;
     }
@@ -214,13 +231,10 @@ void Player::moveLeft()
     if(movingLeft)
     {
         printf("Moving Left!\n");
-        if(frameCounter == 7)
+        speedLeft++;
+        if(speedLeft > speedLimit)
         {
-            speedLeft++;
-            if(speedLeft > speedLimit)
-            {
-                speedLeft = speedLimit;
-            }
+            speedLeft = speedLimit;
         }
         entityData.dimensions.x -= speedLeft;
     }
@@ -231,13 +245,10 @@ void Player::moveRight()
     if(movingRight)
     {
         printf("Moving right!\n");
-        if(frameCounter == 7)
+        speedRight++;
+        if(speedRight > speedLimit)
         {
-            speedRight++;
-            if(speedRight > speedLimit)
-            {
-                speedRight = speedLimit;
-            }
+            speedRight = speedLimit;
         }
         entityData.dimensions.x += speedRight;
         printf("Speed Right: %i\n",speedRight);

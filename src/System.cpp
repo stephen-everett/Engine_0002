@@ -27,10 +27,10 @@ void System::start()
      * pointer. 
      * Map mainMenu will create and manage Entities
      */
-
+    GameTime clock; 
     ResourceManager resourceManager(eventBus);
     CollisionSystem collisionSystem(eventBus);
-    Map mainMenu(eventBus, mouse);
+    Map mainMenu(eventBus, mouse, &clock);
     RenderSystem screen(eventBus);
     
     /* System calls SDL_RegisterEvent() and stores 
@@ -88,6 +88,13 @@ void System::start()
         }
         screen.draw();
         sendEvent(UPDATE);
+        clock.update();
+        if(clock.isTime())
+        {
+            printf("Tick tick time is ticking\n");
+        }
+
+        /*
         uint64_t endTime = SDL_GetPerformanceCounter();
         elapsedTime += static_cast<double>((endTime - startTime) /
                             static_cast<double>(SDL_GetPerformanceFrequency()));
@@ -100,6 +107,7 @@ void System::start()
         count++;
         int FPS = count / elapsedTime;
         printf("Frames per second: %i\n", FPS);
+        */
 
     }
     

@@ -9,7 +9,7 @@ class Player : public Entity
     public:
         Player();
         ~Player();
-        Player(EventBus* eventBus, Mouse* mouse);
+        Player(EventBus* eventBus, Mouse* mouse,GameTime* clock);
         void update();
         void fire();
         void sendColliders();
@@ -19,6 +19,8 @@ class Player : public Entity
         void moveLeft();
         void moveRight();
     private:
+        void updatePositions();
+        void updateProjectiles();
         void calculateTrajectory();
         void setSpeedLimit(int limit);
         void keyPressed(SDL_Keycode key);
@@ -33,7 +35,8 @@ class Player : public Entity
         int mousex;
         int mousey;
 
-        double secondLater;
+        GameTime* clock;
+
 
         TextureRect locationFinder;
 
@@ -60,7 +63,6 @@ class Player : public Entity
         movingState moving;
 
         std::vector<TextureRect> magazine;
-        std::vector<TextureRect> fired;
 
 
 };

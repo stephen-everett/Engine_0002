@@ -4,12 +4,13 @@
 #include "MainMenu.h"
 #include "Mouse.h"
 #include "LevelOne.h"
+#include "GameTime.h"
 
 class Map : public BusNode
 {
     public:
         Map();
-        Map(EventBus * eventBus, Mouse* mouse);
+        Map(EventBus * eventBus, Mouse* mouse,GameTime* clock);
         Map(EventBus* eventBus);
         ~Map();
         void update();
@@ -18,6 +19,7 @@ class Map : public BusNode
     protected:
         void clearMap();
         void onNotify(SDL_Event  message);
+        GameTime* clock;
         Mouse* mouse = NULL;
         MainMenu * mainMenu = NULL;
         LevelOne * levelOne = NULL;

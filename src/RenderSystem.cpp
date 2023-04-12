@@ -115,7 +115,7 @@ void RenderSystem::draw()
     */
  
     SDL_RenderPresent(renderer);
-    SDL_Delay(16);
+   // SDL_Delay(16);
 }
 
 void RenderSystem::onNotify(SDL_Event event)

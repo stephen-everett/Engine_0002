@@ -6,9 +6,10 @@ LevelOne::~LevelOne()
     printf("Level 1 being destructed!\n");
     eventBus->removeReceiver(LEVEL_1);
 }
-LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse):BusNode(LEVEL_1,eventBus),
-    player(eventBus, mouse), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50)
+LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse,GameTime* clock):BusNode(LEVEL_1,eventBus),
+    player(eventBus, mouse,clock), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50)
 {
+    this->clock = clock;
     this->mouse = mouse;
     // background
     staticAssets.emplace_back(
@@ -36,13 +37,16 @@ LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse):BusNode(LEVEL_1,eventBus),
 
 void LevelOne::update()
 {
-    for(auto it = dynamicAssets.begin(); it != dynamicAssets.end(); it++)
+    if(clock->isTime())
     {
-        if(it->dimensions.y > 480)
+        for(auto it = dynamicAssets.begin(); it != dynamicAssets.end(); it++)
         {
-            it->dimensions.y = -479;
+            if(it->dimensions.y > 480)
+            {
+                it->dimensions.y = -479;
+            }
+            it->dimensions.y += 10;
         }
-        it->dimensions.y += 10;
     }
     if(colliderTester.getTextureRect()->isCollided)
     {
