@@ -72,5 +72,9 @@ void CollisionSystem::onNotify(SDL_Event event)
             printf("Collision System received CS_FLUSHRECT\n");
             flushRect();
         }
+        if(event.user.code == UPDATE)
+        {
+            update();
+        }
     }
 }

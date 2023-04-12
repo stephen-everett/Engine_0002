@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include "Entity.h"
 #include "Mouse.h"
+#include "Structs.h"
 
 class Player : public Entity
 {
@@ -12,8 +13,18 @@ class Player : public Entity
         void update();
         void fire();
         void sendColliders();
+        void move();
+        void moveUp();
+        void moveDown();
+        void moveLeft();
+        void moveRight();
     private:
+        void calculateTrajectory();
+        void setSpeedLimit(int limit);
+        void keyPressed(SDL_Keycode key);
+        void keyReleased(SDL_Keycode key);
         void onNotify(SDL_Event event);
+        void requestTextures();
         bool movingUp = false;
         bool movingDown = false;
         bool movingLeft = false;
@@ -22,6 +33,10 @@ class Player : public Entity
         int mousex;
         int mousey;
 
+        double secondLater;
+
+        TextureRect locationFinder;
+
         int centerx;
         int centery;
 
@@ -29,7 +44,10 @@ class Player : public Entity
         int deltaY;
 
         double angle;
+        double trajectoryX;
+        double trajectoryY;
 
+        int speedLimit;
         int speedUp;
         int speedDown;
         int speedLeft;
@@ -38,6 +56,8 @@ class Player : public Entity
 
         int rotationPointOffsetX;
         int rotationPointOffsetY;
+
+        movingState moving;
 
         std::vector<TextureRect> magazine;
         std::vector<TextureRect> fired;

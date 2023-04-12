@@ -82,7 +82,7 @@ void RenderSystem::draw()
             }
         }
     }
-/*
+
     if (playerColliders != NULL)
     {
         int temp = playerColliders->size();
@@ -97,6 +97,7 @@ void RenderSystem::draw()
             }
         }
     }
+/*
     if (enemyColliders != NULL)
     {
         int temp = enemyColliders->size();
@@ -114,42 +115,46 @@ void RenderSystem::draw()
     */
  
     SDL_RenderPresent(renderer);
-    SDL_Delay(17);
+    SDL_Delay(16);
 }
 
 void RenderSystem::onNotify(SDL_Event event)
 {
     printf("Render System onNotify()\n");
-    if(event.type == SDL_USEREVENT)
+    switch(event.type)
     {
-        if(event.user.code == GL_LOAD_INITIAL)
-        {
-            printf("--- Received GL_LOAD_INITIAL RenderSystem---\n");
-            userEvent1 = *(Uint32*)event.user.data1;
-        }
-        if(event.user.code == RS_LINK_RESOURCES)
-        {
-           loadedRectangles = (std::vector<TextureRect*>*)event.user.data1;
-           int testSize = loadedRectangles->size();
-           printf("--- Size of loadedRectangles: %i\n ---",testSize);
-        }
-        if(event.user.code == RS_CREATE_TEXTURE)
-        {
-            createTexture((TextureRect*)event.user.data1);
-        }
-        if(event.user.code == RS_NULL_VECTOR)
-        {
-            loadedRectangles = NULL;
-            playerColliders = NULL;
-            enemyColliders = NULL;
-            sendEvent(RM_FLUSHRECT);
-            sendEvent(CS_FLUSHRECT);
-        }
-        if(event.user.code == RS_LOAD_COLLIDERS)
-        {
-            playerColliders = (std::vector<TextureRect*>*)event.user.data1;
-            enemyColliders = (std::vector<TextureRect*>*)event.user.data2;
-        }
+        case SDL_USEREVENT:
+            switch(event.user.code)
+            {
+                case GL_LOAD_INITIAL:
+                    printf("Render System Received GL_LOAD_INITIAL\n");
+                    userEvent1 = *(Uint32*)event.user.data1;
+                    break;
+
+                case RS_LINK_RESOURCES:
+                    printf("Render System Received RS_LINK_RESOURCES\n");
+                   loadedRectangles = (std::vector<TextureRect*>*)event.user.data1;
+                    break;
+
+                case RS_CREATE_TEXTURE:
+                    printf("Render System Received RS_CREATE_TEXTURE\n");
+                    createTexture((TextureRect*)event.user.data1);
+                    break;
+
+                case RS_NULL_VECTOR:
+                    loadedRectangles = NULL;
+                    playerColliders = NULL;
+                    enemyColliders = NULL;
+                    sendEvent(RM_FLUSHRECT);
+                    sendEvent(CS_FLUSHRECT);
+                    break;
+
+                case RS_LOAD_COLLIDERS:
+                    playerColliders = (std::vector<TextureRect*>*)event.user.data1;
+                    enemyColliders = (std::vector<TextureRect*>*)event.user.data2;
+                    break;
+            }
+            break;
     }
 }
 

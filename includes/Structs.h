@@ -3,30 +3,12 @@
 
 #include <vector>
 
-struct staticAsset
+struct movingState
 {
-    int h;
-    int w;
-    int x;
-    int y;
-    const char* path;
+    bool up = false;
+    bool down = false;
+    bool left = false;
+    bool right = false;
 };
-struct dynamicAsset
-{
-    int h;
-    int w;
-    int x;
-    int y;
-    const char* path;
-};
-struct level
-{
-    const char* name;
-    //std::vector<staticAsset> staticAssets;
-   // std::vector<dynamicAsset> dynamicAssets;
-    staticAsset background;
-    int h;
-    int w;
 
-};
 #endif

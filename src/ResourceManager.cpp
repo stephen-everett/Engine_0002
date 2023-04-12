@@ -17,76 +17,82 @@ ResourceManager::ResourceManager(EventBus * eventBus) :
 
 void ResourceManager::update(){}
 
+void ResourceManager::setTexture(TextureRect* event)
+{
+    if(loadedTextures[event->textureIndex] == NULL)
+    {
+        printf("--- index was NULL ---\n");
+        sendEvent(RS_CREATE_TEXTURE,event,NULL);
+    }
+    else
+    {
+        printf("index was not null\n");
+        event->texture = loadedTextures[event->textureIndex];
+        loadedRectangles.push_back(event);
+    }
+
+}
+
+void ResourceManager::saveTexture(TextureRect* event)
+{
+    loadedTextures[event->textureIndex] = event->texture ;
+
+    if(loadedTextures[event->textureIndex] == NULL)
+    {
+        printf("-- Index still NULL ---\n");
+    }
+
+    loadedRectangles.push_back(event);
+
+}
+
 void ResourceManager::onNotify(SDL_Event event)
 {
     printf("Resource Manager onNotify()\n");
-    
-    if(event.type == SDL_USEREVENT)
-    {   
-        /* set userEvent1 to the Systems userEvent1. Enable sending of 
-        SDL_USEREVENTs
-        */
-        if(event.user.code == GL_LOAD_INITIAL)
-        {
-            printf("---Received GL_LOAD_INITIAL event---\n");
-            userEvent1 = *(Uint32*)event.user.data1;
-        }
-    
-        /* Send reference to loadedRectangles to RenderSystem to use for drawing
-         * textures to the screen
-         */
-        if(event.user.code == RM_SEND_RESOURCE_LINKS)
-        {
-            printf("--- Received RM_SEND_RESOURCE_LINKS ---\n");
-            sendEvent(RS_LINK_RESOURCES,&loadedRectangles,NULL);
-        }
-
-        /* Given a TextureRect*, see if the texture has already been created
-         * and saved in loadedTextures[]. If not, send the TextureRect* to 
-         * RenderSystem to create texture
-         */
-        if(event.user.code == RM_SET_TEXTURE)
-        {
-            if(loadedTextures[((TextureRect*)event.user.data1)->textureIndex] == NULL)
+    switch(event.type)
+    {
+        case SDL_USEREVENT:
+            switch(event.user.code)
             {
-                printf("--- index was NULL ---\n");
-                sendEvent(RS_CREATE_TEXTURE,event.user.data1,NULL);
+                case GL_LOAD_INITIAL:
+                /* set userEvent1 to the Systems userEvent1. Enable sending of 
+                 * SDL_USEREVENTs
+                 */
+                    printf("Resource Manager received GL_LOAD_INITIAL\n");
+                    userEvent1 = *(Uint32*)event.user.data1;
+                    break;
+
+                case RM_SEND_RESOURCE_LINKS:
+                /* Send reference to loadedRectangles to RenderSystem to use for drawing
+                 * textures to the screen
+                 */
+                    printf("Resousrce Manager received RM_SEND_RESOURCE_LINKS\n");
+                    sendEvent(RS_LINK_RESOURCES,&loadedRectangles,NULL);
+                    break;
+
+                case RM_SET_TEXTURE:
+                /* Given a TextureRect*, see if the texture has already been created
+                 * and saved in loadedTextures[]. If not, send the TextureRect* to 
+                 * RenderSystem to create texture
+                 */
+                    setTexture((TextureRect*)event.user.data1);
+                    break;
+
+                case RM_SAVE_TEXTURE:
+                /* Receive TextureRect* back from RenderSystem, add SDL_Rect that is 
+                 * inside TextureRect* to loadedRectangles. Save texture in 
+                 * Loaded Textures
+                 */
+                    saveTexture((TextureRect*)event.user.data1);
+                    break;
+
+                case RM_FLUSHRECT:
+                    flushRect();
+                    sendEvent(M_RECTFLUSHED);
+                    break;
             }
-            else
-            {
-                printf("index was not null\n");
-
-                ((TextureRect*)event.user.data1)->texture =
-                    loadedTextures[((TextureRect*)event.user.data1)->textureIndex];
-
-                loadedRectangles.push_back((TextureRect*)event.user.data1);
-            }
-        }
-        
-        /* Receive TextureRect* back from RenderSystem, add SDL_Rect that is 
-         * inside TextureRect* to loadedRectangles. Save texture in 
-         * Loaded Textures
-         */
-        if(event.user.code == RM_SAVE_TEXTURE)
-        {
-            loadedTextures[((TextureRect*)event.user.data1)->textureIndex] =
-                ((TextureRect*)event.user.data1)->texture ;
-
-            if(loadedTextures[((TextureRect*)event.user.data1)->textureIndex] == NULL)
-            {
-                printf("-- Index still NULL ---\n");
-            }
-
-            loadedRectangles.push_back((TextureRect*)event.user.data1);
-        }
-
-        if(event.user.code == RM_FLUSHRECT)
-        {
-            flushRect();
-            sendEvent(M_RECTFLUSHED);
-        }
+            break;
     }
-    
 }
 
 // may or may not be issue

@@ -12,10 +12,12 @@ Player::~Player()
 }
 
 Player::Player(EventBus* eventBus, Mouse* mouse)
-    :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,100,100)
+    :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,100,100),
+    locationFinder()
 {
     this->mouse = mouse;
     SDL_ShowCursor(SDL_ENABLE);
+    speedLimit = 7;
     speedUp = 0;
     speedDown = 0;
     speedLeft = 0;
@@ -23,6 +25,8 @@ Player::Player(EventBus* eventBus, Mouse* mouse)
     frameCounter = 0;
     rotationPointOffsetX = 0;
     rotationPointOffsetY = 0;
+    extern double GlobalTime;
+    secondLater = GlobalTime + .08;
     for (int i = 0; i < 30; i++)
     {
         magazine.emplace_back(
@@ -32,6 +36,11 @@ Player::Player(EventBus* eventBus, Mouse* mouse)
                 20,20,
                 false);
     }
+}
+
+void Player::setSpeedLimit(int limit)
+{
+    speedLimit = limit;
 }
 
 void Player::fire()
@@ -88,6 +97,13 @@ void Player::fire()
 
 void Player::update()
 {
+    extern double GlobalTime;
+    printf("Current Global Time: %0.2f\n",GlobalTime);
+    if(frameCounter == 7)
+    {
+        frameCounter = 0;
+    }
+    frameCounter++;
     printf("Rotation Offset X: %i\n",rotationPointOffsetX);
     printf("Rotation Offset Y: %i\n", rotationPointOffsetY); 
     centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
@@ -103,6 +119,14 @@ void Player::update()
 
     entityData.rotationPoint.x = entityData.dimensions.w/2;
     entityData.rotationPoint.y = entityData.dimensions.h/2;
+
+    //locationFinder.dimensions.x = centerx + 36*cos(angle-.369);
+    //locationFinder.dimensions.y = centery + 36*sin(angle-.369);
+
+    locationFinder.dimensions.x = centerx + 34*cos(angle-2.722);
+    locationFinder.dimensions.y = centery + 34*sin(angle-2.722);
+
+
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
         if(it->dimensions.x < 0 || it->dimensions.x > WINDOW_WIDTH)
@@ -118,87 +142,181 @@ void Player::update()
             it->dimensions.x += it->pathX;
             it->dimensions.y -= it->pathY;
         }
+        printf("SecondLater: %0.2f\n",secondLater);
+        calculateTrajectory();
+        if( GlobalTime > secondLater)
+        {
+            move();
+            printf("Inside Second calculator\n");
+            secondLater = GlobalTime + .0125;
+        }
+        //move();
     }
 
-    if(frameCounter == 7)
-    {
-        frameCounter = 0;
-    }
-    frameCounter++;
+}
 
+void Player::calculateTrajectory()
+{
+    trajectoryY = cos(angle);
+    trajectoryX = sin(angle);
+}
+
+void Player::move()
+{
+    moveUp();
+    moveDown();
+    moveLeft();
+    moveRight();
+}
+
+void Player::moveUp()
+{
     if(movingUp)
     {
-        if(frameCounter == 7)
-        {
-            speedUp++;
-        }
-        if(speedUp > 7)
-        {
-            speedUp = 7;
-        }
-        int y = speedUp * cos(angle);
-        int x = speedUp * sin(angle);
-        entityData.dimensions.x += x;
-        entityData.dimensions.y -= y;
-        /*
-        printf("movingUp!\n");
-        if (speedUp > 10)
-        {
-            speedUp = 10;
-        }
-        entityData.dimensions.y -= speedUp;
+        printf("Moving Up!\n");
         speedUp++;
-        */
-        printf("Slope: %.2f ",slope);
+        if(speedUp > speedLimit)
+        {
+            speedUp = speedLimit;
+        }
+        printf("x location: %i " ,entityData.dimensions.x);
+        printf("y location: %i " ,entityData.dimensions.y);
+        printf("x step: %0.2f ", (speedUp * trajectoryX));
+        printf("y step: %0.2f ", (speedUp * trajectoryY));
+        entityData.dimensions.x += (int)(speedUp * trajectoryX);
+        entityData.dimensions.y -= (int)(speedUp * trajectoryY);
+
         printf("Entity angle: %.2f ",entityData.angle);
         printf("Radian angle: %.2f \n", angle);
-        //entityData.dimensions.y -= 10*slope;
-        //entityData.dimensions.x += 10*slope;
         
     }
+}
+
+void Player::moveDown()
+{
     if(movingDown)
     {
-        
+        printf("Moving Down!\n");
         if(frameCounter == 7)
         {
             speedDown++;
-        }
-        if(speedDown > 7)
-        {
-            speedDown = 7;
+            if(speedDown > speedLimit)
+            {
+                speedDown = speedLimit;
+            }
         }
         entityData.dimensions.y += speedDown;
     }
+}
+
+void Player::moveLeft()
+{
     if(movingLeft)
     {
+        printf("Moving Left!\n");
         if(frameCounter == 7)
         {
             speedLeft++;
-        }
-        if(speedLeft > 7)
-        {
-            speedLeft = 7;
+            if(speedLeft > speedLimit)
+            {
+                speedLeft = speedLimit;
+            }
         }
         entityData.dimensions.x -= speedLeft;
     }
+}
+
+void Player::moveRight()
+{
     if(movingRight)
     {
+        printf("Moving right!\n");
         if(frameCounter == 7)
         {
             speedRight++;
-        }
-        if(speedRight > 7)
-        {
-            speedRight = 7;
+            if(speedRight > speedLimit)
+            {
+                speedRight = speedLimit;
+            }
         }
         entityData.dimensions.x += speedRight;
+        printf("Speed Right: %i\n",speedRight);
     }
-    //entityData.angle = (atan2((mousey - entityData.dimensions.y), (mousex - entityData.dimensions.x)))*(180/3.14);
+}
+
+void Player::keyPressed(SDL_Keycode key)
+{
+    switch(key)
+    {
+        case SDLK_w:
+            printf("Received W key!\n");
+            movingUp = true;
+            break;
+
+        case SDLK_a:
+            movingLeft = true;
+            break;
+        
+        case SDLK_s:
+            movingDown = true;
+            break;
+        
+        case SDLK_d:
+            movingRight = true;
+            break;
+        case SDLK_t:
+            rotationPointOffsetY += 10;
+            break;
+        
+        case SDLK_f:
+            rotationPointOffsetX -= 10;
+            break;
+        
+        case SDLK_g:
+            rotationPointOffsetY -= 10;
+            break;
+        
+        case SDLK_h:
+            rotationPointOffsetX += 10;
+            break;
+    }
+}
+
+void Player::keyReleased(SDL_Keycode key)
+{
+    switch(key)
+    {
+        case SDLK_w:
+            printf("Received W key!\n");
+            movingUp = false;
+            speedUp = 0;
+            break;
+        
+        case SDLK_a:
+            movingLeft = false;
+            speedLeft = 0;
+            break;
+        
+        case SDLK_s:
+            movingDown = false;
+            speedDown = 0;
+            break; 
+        case SDLK_d:
+            movingRight = false;
+            speedRight = 0;
+            break;
+    }
+    
 }
 
 void Player::sendColliders()
 {
+    locationFinder.colliderTag = COLLIDER_PLAYER;
+    locationFinder.enabled = true; 
+    locationFinder.dimensions.h = 20;
+    locationFinder.dimensions.w = 20;
     entityData.colliderTag = COLLIDER_PLAYER;
+    sendEvent(CS_LOAD_COLLIDER,&locationFinder,NULL);
     sendEvent(CS_LOAD_COLLIDER,&entityData,NULL);
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
@@ -207,102 +325,57 @@ void Player::sendColliders()
     }
 }
 
+void Player::requestTextures()
+{
+    Entity::requestTextures();
+    for(auto it = magazine.begin(); it != magazine.end(); it++)
+    {
+        sendEvent(RM_SET_TEXTURE,&(*it),NULL);
+    }
+}
+
 void Player::onNotify(SDL_Event event)
 {
     printf("Player onNotify()\n");
-    if(event.type == SDL_USEREVENT)
+    switch(event.type)
     {
-        if(event.user.code == GL_LOAD_INITIAL)
-        {
-            printf("Button GL_LOAD_INITIAL\n");
-            userEvent1 = *(Uint32*)event.user.data1;
-            sendColliders();
-        }
-        if(event.user.code == E_GET_TEXTURES)
-        {
-            printf("Button request textures\n");
-            requestTextures();
-            for(auto it = magazine.begin(); it != magazine.end(); it++)
+        case SDL_USEREVENT:
+            switch(event.user.code)
             {
-                sendEvent(RM_SET_TEXTURE,&(*it),NULL);
-            }
-        }
-    }
-    if(event.type == SDL_KEYDOWN)
-    {
-        printf("Player received keydown event\n");
-        if(event.key.keysym.sym == SDLK_w)
-        {
-            printf("Received W key!\n");
-            movingUp = true;
-        }
-        if(event.key.keysym.sym == SDLK_a)
-        {
-            movingLeft = true;
-        }
-        if(event.key.keysym.sym == SDLK_s)
-        {
-            movingDown = true;
-        }
-        if(event.key.keysym.sym == SDLK_d)
-        {
-            movingRight = true;
-        }
-        if(event.key.keysym.sym == SDLK_t)
-        {
-            rotationPointOffsetY += 10;
-        }
-        if(event.key.keysym.sym == SDLK_f)
-        {
-            rotationPointOffsetX -= 10;
-        }
-        if(event.key.keysym.sym == SDLK_g)
-        {
-            rotationPointOffsetY -= 10;
-        }
-        if(event.key.keysym.sym == SDLK_h)
-        {
-            rotationPointOffsetX += 10;
-        }
-    }
-    if(event.type == SDL_KEYUP)
-    {
-        if(event.key.keysym.sym == SDLK_w)
-        {
-            printf("Received W key!\n");
-            movingUp = false;
-            speedUp = 0;
-        }
-        if(event.key.keysym.sym == SDLK_a)
-        {
-            movingLeft = false;
-            speedLeft = 0;
-        }
-        if(event.key.keysym.sym == SDLK_s)
-        {
-            movingDown = false;
-            speedDown = 0;
-        }
-        if(event.key.keysym.sym == SDLK_d)
-        {
-            movingRight = false;
-            speedRight = 0;
-        }
+                case GL_LOAD_INITIAL:
+                    printf("Player received GL_LOAD_INITIAL\n");
+                    userEvent1 = *(Uint32*)event.user.data1;
+                    sendColliders();
+                    break;
 
-    }
-    if(event.user.code == UPDATE)
-    {
-        printf("Received update!\n");
-        update();
-    }
-    if(event.type == SDL_MOUSEMOTION)
-    {
-        printf("Player received mouse motion!\n");
-       SDL_GetMouseState(&mousex,&mousey);
-    }
-    if(event.type == SDL_MOUSEBUTTONDOWN)
-    {
-        fire();
+                case E_GET_TEXTURES:
+                    printf("Player received E_GET_TEXTURES\n");
+                    requestTextures();
+                    break;
+
+                case UPDATE:
+                    printf("Player Received update!\n");
+                    update();
+                    break;
+            }
+            break;
+
+        case SDL_KEYDOWN:
+            keyPressed(event.key.keysym.sym);
+            break;
+
+        case SDL_KEYUP:
+            keyReleased(event.key.keysym.sym);
+            break;
+
+        case SDL_MOUSEMOTION:
+            printf("Player received mouse motion!\n");
+            SDL_GetMouseState(&mousex,&mousey);
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            fire();
+            break;
     }
 }
 

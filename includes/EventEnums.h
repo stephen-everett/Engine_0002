@@ -97,4 +97,5 @@ enum TypeEnums
     PLAYER = 900,
     COLLISION_SYSTEM = 1000,
 };
+
 #endif

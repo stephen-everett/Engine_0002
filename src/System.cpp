@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "RenderSystem.h"
 #include "CollisionSystem.h"
+#include "math.h"
 
 System::System(){}
 
@@ -56,30 +57,50 @@ void System::start()
     // Beginning state
     state = SET_STAGE;
     level = 0;
+    double elapsedTime = 0;
+    int count = 0;
+    extern double GlobalTime;
     // Main loop
     while(!quit)
     {
+        uint64_t startTime = SDL_GetPerformanceCounter();
         eventBus->notify();
-        if(state == SET_STAGE)
+        switch(state)
         {
-            if(level == 0)
-            {
-                sendEvent(M_LOAD_MAIN);
-                level = 99;
-            }
-            if(level == 1)
-            {
-                sendEvent(M_LOAD_LEVEL_1);
-                level = 99;
-            }
-        }
-        if (state == READY)
-        {
-            sendEvent(E_GET_TEXTURES);
-            state = IDLE;
+            case SET_STAGE:
+                switch(level)
+                {
+                    case 0:
+                        sendEvent(M_LOAD_MAIN);
+                        level = 99;
+                        break;
+                    case 1:
+                        sendEvent(M_LOAD_LEVEL_1);
+                        level = 99;
+                        break;
+                }
+                break;
+
+            case READY:
+                sendEvent(E_GET_TEXTURES);
+                state = IDLE;
+                break;
         }
         screen.draw();
         sendEvent(UPDATE);
+        uint64_t endTime = SDL_GetPerformanceCounter();
+        elapsedTime += static_cast<double>((endTime - startTime) /
+                            static_cast<double>(SDL_GetPerformanceFrequency()));
+        GlobalTime = elapsedTime;
+        printf("Time: %0.2f\n",elapsedTime);
+        if(fmod(elapsedTime, 1.0) == 0.0)
+        {
+            printf("tick\n");
+        }
+        count++;
+        int FPS = count / elapsedTime;
+        printf("Frames per second: %i\n", FPS);
+
     }
     
 }
@@ -87,37 +108,39 @@ void System::start()
  void System::onNotify(SDL_Event event)
 {
     printf("System onNotify()\n");
-    if(event.type == SDL_QUIT)
+    switch (event.type)
     {
-        quit = true;
-    }
+        case SDL_QUIT:
+            quit = true;
+            break;
+        case SDL_USEREVENT:
+            switch(event.user.code)
+            {
+                // If level is created, it needs userEvent to send messages
+                case SYS_LEVEL_LOADED:
+                    sendEvent(GL_LOAD_INITIAL,&userEvent1,NULL);
+                    break;
 
-    if(event.type == SDL_USEREVENT)
-    {
-        // If level is created, it needs userEvent to send messages
-        if(event.user.code == SYS_LEVEL_LOADED)
-        {
-            sendEvent(GL_LOAD_INITIAL, &userEvent1,NULL);
-        }
-        if(event.user.code == SYS_READY)
-        {
-            state = READY;
-            sendEvent(RM_SEND_RESOURCE_LINKS);
-        }
-        if(event.user.code == START_CLICKED)
-        {
-            sendEvent(RS_NULL_VECTOR);
-            level = 1;
-        }
-        if(event.user.code == SYS_LOAD_MAIN)
-        {
-            sendEvent(RS_NULL_VECTOR);
-            level = 0;
-        }
-        if(event.user.code == SYS_LEVEL_CLEARED)
-        {
-            state = SET_STAGE;
-        }
+                case SYS_READY:
+                    state = READY;
+                    sendEvent(RM_SEND_RESOURCE_LINKS);
+                    break;
+                               
+                case START_CLICKED:
+                    sendEvent(RS_NULL_VECTOR);
+                    level = 1;
+                    break;
+
+                case SYS_LOAD_MAIN:
+                    sendEvent(RS_NULL_VECTOR);
+                    level = 0;
+                    break;
+
+                case SYS_LEVEL_CLEARED:
+                    state = SET_STAGE;
+                    break;
+            }
+
     }
 }
 
