@@ -10,6 +10,10 @@ Mouse::Mouse(EventBus* eventBus): Entity(MOUSE,eventBus)
     entityData.dimensions.y = 0;
     entityData.dimensions.w = 50;
     entityData.dimensions.h = 50;
+    entityData.drawRect.x = 0;
+    entityData.drawRect.y = 0;
+    entityData.drawRect.h = 50;
+    entityData.drawRect.w = 50;
 }
 
 Mouse::~Mouse()

@@ -46,6 +46,10 @@ struct TextureRect
         dimensions.h = h;
         rotationPoint.x = (w+x) / 2;
         rotationPoint.y = (y+h) / 2;
+        drawRect.x =0;
+        drawRect.y = 0;
+        drawRect.h =h;
+        drawRect.w = w;
     }
 
     TextureRect(const char* path, int index, int x, int y, int w, int h,bool enabled)
@@ -58,6 +62,10 @@ struct TextureRect
         dimensions.y = y;
         dimensions.w = w;
         dimensions.h = h;
+        drawRect.x =0;
+        drawRect.y = 0;
+        drawRect.h =h;
+        drawRect.w = w;
         colliderRect.w = w;
         colliderRect.h = h;
         this->enabled = enabled;

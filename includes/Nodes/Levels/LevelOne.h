@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "Player.h"
 #include "GameTime.h"
+#include "EnemyHandler.h"
 
 
 class LevelOne : public BusNode
@@ -22,6 +23,7 @@ class LevelOne : public BusNode
         GameTime* clock;
         Mouse* mouse;
         Player player;
+        EnemyHandler enemies;
         std::vector<TextureRect> staticAssets;
         std::vector<TextureRect> dynamicAssets;
         Entity colliderTester;

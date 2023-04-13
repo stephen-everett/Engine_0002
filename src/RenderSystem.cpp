@@ -74,7 +74,7 @@ void RenderSystem::draw()
             int angle = (*it)->angle;
             if(enabled)
             {
-                SDL_RenderCopyEx(renderer,texture,NULL,&rect,angle,&(*it)->rotationPoint,SDL_FLIP_NONE);
+                SDL_RenderCopyEx(renderer,texture,&(*it)->drawRect,&rect,angle,&(*it)->rotationPoint,SDL_FLIP_NONE);
                 //SDL_RenderDrawRect(renderer, &rect);
                 //SDL_RenderDrawLine(renderer,rect.x + (rect.w/2), rect.y, rect.x+(rect.w/2),rect.y+rect.h);
                 //SDL_RenderDrawLine(renderer, rect.x,rect.y+(rect.h/2),rect.x+rect.w,rect.y+(rect.h/2));
@@ -97,7 +97,6 @@ void RenderSystem::draw()
             }
         }
     }
-/*
     if (enemyColliders != NULL)
     {
         int temp = enemyColliders->size();
@@ -112,7 +111,6 @@ void RenderSystem::draw()
             }
         }
     }
-    */
  
     SDL_RenderPresent(renderer);
    // SDL_Delay(16);

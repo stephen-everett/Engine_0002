@@ -15,6 +15,7 @@
 #define PATH_STARS  "./assets/img/stars.png"
 #define PATH_BULLET "./assets/img/bullet.png"
 #define PATH_COLLIDERTESTER "./assets/img/collidertester.png"
+#define PATH_TESTMODEL "./assets/img/simpleenemy.png"
 
 #define WINDOWNAME "Game"
 //#define WINDOW_HEIGHT 600
@@ -56,7 +57,7 @@ enum TextureIndex
     INDX_MAIN_MENU = 0,
     INDX_LEVEL1_BG,
     INDX_PLAYER,
-    ENEMY_ONE_TEXTURE_INDEX,
+    INDX_ENEMY,
     ENEMY_TWO_TEXTURE_INDEX,
     INDX_START_BUTTON,
     INDX_TITLE,
@@ -96,6 +97,7 @@ enum TypeEnums
     LEVEL_1 = 800,
     PLAYER = 900,
     COLLISION_SYSTEM = 1000,
+    ENEMY_HANDLER =1100,
 };
 
 #endif

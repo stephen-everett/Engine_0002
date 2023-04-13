@@ -24,6 +24,10 @@ Entity::Entity(int tag,EventBus * eventBus, const char* path,int index, int x, i
    entityData.dimensions.y = y;
    entityData.dimensions.h = h;
    entityData.dimensions.w = w;
+   entityData.drawRect.x = 0;
+   entityData.drawRect.y = 0;
+   entityData.drawRect.h = h;
+   entityData.drawRect.w = w;
 
 }
 Entity::Entity(EventBus * eventBus, const char* path,int index, int x, int y, int w, int h)
@@ -37,6 +41,10 @@ Entity::Entity(EventBus * eventBus, const char* path,int index, int x, int y, in
    entityData.dimensions.y = y;
    entityData.dimensions.h = h;
    entityData.dimensions.w = w;
+   entityData.drawRect.x = 0;
+   entityData.drawRect.y = 0;
+   entityData.drawRect.h = h;
+   entityData.drawRect.w = w;
 
 }
 void Entity::requestTextures()

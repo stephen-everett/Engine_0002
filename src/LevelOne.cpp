@@ -7,7 +7,8 @@ LevelOne::~LevelOne()
     eventBus->removeReceiver(LEVEL_1);
 }
 LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse,GameTime* clock):BusNode(LEVEL_1,eventBus),
-    player(eventBus, mouse,clock), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50)
+    player(eventBus, mouse,clock), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50),
+    enemies(eventBus,clock)
 {
     this->clock = clock;
     this->mouse = mouse;
