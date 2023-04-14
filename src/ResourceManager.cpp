@@ -19,8 +19,8 @@ void ResourceManager::update(){}
 
 void ResourceManager::setTexture(TextureRect* event)
 {
-    sendEvent(RS_CREATE_TEXTURE,event,NULL);
-    /*
+    //sendEvent(RS_CREATE_TEXTURE,event,NULL);
+    
     if(loadedTextures[event->textureIndex] == NULL)
     {
         printf("--- index was NULL ---\n");
@@ -32,8 +32,7 @@ void ResourceManager::setTexture(TextureRect* event)
         event->texture = loadedTextures[event->textureIndex];
         loadedRectangles.push_back(event);
     }
-    */
-
+    
 }
 
 void ResourceManager::saveTexture(TextureRect* event)

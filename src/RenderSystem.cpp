@@ -75,7 +75,7 @@ void RenderSystem::draw()
             if(enabled)
             {
                 SDL_RenderCopyEx(renderer,texture,&(*it)->drawRect,&rect,angle,&(*it)->rotationPoint,SDL_FLIP_NONE);
-                //SDL_RenderDrawRect(renderer, &rect);
+                SDL_RenderDrawRect(renderer, &rect);
                 //SDL_RenderDrawLine(renderer,rect.x + (rect.w/2), rect.y, rect.x+(rect.w/2),rect.y+rect.h);
                 //SDL_RenderDrawLine(renderer, rect.x,rect.y+(rect.h/2),rect.x+rect.w,rect.y+(rect.h/2));
                // SDL_RenderCopy(renderer,texture,NULL,&rect);

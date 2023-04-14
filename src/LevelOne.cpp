@@ -61,6 +61,7 @@ void LevelOne::update()
 
 void LevelOne::requestTextures()
 {
+    TextureRect* temp = mouse->getTextureRect();
     sendEvent(RM_SET_TEXTURE,mouse->getTextureRect(),NULL);
     for(auto it = staticAssets.begin(); it != staticAssets.end(); it++)
     {
