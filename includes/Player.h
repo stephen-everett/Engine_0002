@@ -60,6 +60,12 @@ class Player : public Entity
         int rotationPointOffsetX;
         int rotationPointOffsetY;
 
+        int leftFrame;
+        int rightFrame;
+        int upFrame;
+
+        double deltaTime;
+
         movingState moving;
 
         std::vector<TextureRect> magazine;

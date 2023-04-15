@@ -12,7 +12,7 @@ Player::~Player()
 }
 
 Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
-    :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,100,100),
+    :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,47,56),
     locationFinder()
 {
     this->clock = clock;
@@ -24,6 +24,12 @@ Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
     speedLeft = 0;
     speedRight = 0;
     frameCounter = 0;
+
+    rightFrame = 0;
+    leftFrame = 0;
+    upFrame = 0;
+    deltaTime = clock->getElapsedTime(); 
+
     rotationPointOffsetX = 0;
     rotationPointOffsetY = 0;
     for (int i = 0; i < 30; i++)
@@ -35,6 +41,10 @@ Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
                 20,20,
                 false);
     }
+    entityData.drawRect.x = 0;
+    entityData.drawRect.y = 0;
+    entityData.drawRect.h = 56;
+    entityData.drawRect.w = 47;
 }
 
 void Player::setSpeedLimit(int limit)
@@ -56,16 +66,8 @@ void Player::fire()
                {
                    
                    it->enabled = true;
-                   //it->dimensions.x = entityData.dimensions.x + sin(angle);
-                   //it->dimensions.y = entityData.dimensions.y + 2*cos(angle);
-                   //it->dimensions.x = entityData.dimensions.x+10;
-                   //it->dimensions.y = entityData.dimensions.y + 15;
                    it->dimensions.x = centerx - 28*cos(angle) -10;
                    it->dimensions.y = centery - 28*sin(angle) -10;
-                   //it->rotationPoint.x = entityData.rotationPoint.x-10;
-                   //it->rotationPoint.y = entityData.rotationPoint.y-20;
-                   //it->colliderRect.x = centerx + 28*cos(angle)-5 ;//entityData.dimensions.x+sin(angle);
-                   //it->colliderRect.y = centery + 28*sin(angle)-5 ;//entityData.dimensions.y+cos(angle);;
                    it->angle = entityData.angle;
                    it->pathX = 25*sin(angle);
                    it->pathY = 25*cos(angle);
@@ -78,10 +80,6 @@ void Player::fire()
                    it->enabled = true;
                    it->dimensions.x = centerx + 28*cos(angle) -5;//entityData.dimensions.x+75;
                    it->dimensions.y = centery + 28*sin(angle) -5;//entityData.dimensions.y + 15;
-                   //it->rotationPoint.x = entityData.rotationPoint.x-80;
-                   //it->rotationPoint.y = entityData.rotationPoint.y-15;
-                   //it->colliderRect.x = entityData.dimensions.x+50;
-                   //it->colliderRect.y = entityData.dimensions.y;
                    it->angle = entityData.angle;
                    it->pathX = 25*sin(angle);
                    it->pathY = 25*cos(angle);
@@ -112,8 +110,6 @@ void Player::updatePositions()
     entityData.rotationPoint.x = entityData.dimensions.w/2;
     entityData.rotationPoint.y = entityData.dimensions.h/2;
 
-    //locationFinder.dimensions.x = centerx + 36*cos(angle-.369);
-    //locationFinder.dimensions.y = centery + 36*sin(angle-.369);
 
     locationFinder.dimensions.x = centerx + 34*cos(angle-2.722);
     locationFinder.dimensions.y = centery + 34*sin(angle-2.722);
@@ -142,19 +138,18 @@ void Player::updateProjectiles()
 
 void Player::update()
 {
+    if(entityData.texture == NULL)
+    {
+        printf("No player texture found!\n");
+    }
     updatePositions();
     calculateTrajectory();
     if(clock->isTime())
     {
         move();
         updateProjectiles();
+    }
        
-        printf("Inside Second calculator\n");
-    }
-    else
-    {
-        printf("Not time yet\n");
-    }
 }
 
 void Player::calculateTrajectory()
@@ -208,7 +203,15 @@ void Player::moveUp()
 
         printf("Entity angle: %.2f ",entityData.angle);
         printf("Radian angle: %.2f \n", angle);
-        
+        if(upFrame < 2)
+        {
+            if(deltaTime < clock->getElapsedTime())
+            {
+                entityData.drawRect.x += 47;
+                deltaTime = clock->getElapsedTime() +0.25;
+                upFrame++;
+            }
+        }
     }
 }
 
@@ -261,11 +264,22 @@ void Player::keyPressed(SDL_Keycode key)
     {
         case SDLK_w:
             printf("Received W key!\n");
-            movingUp = true;
+            if(!movingUp)
+            {
+                entityData.drawRect.x = 0;
+                entityData.drawRect.y = 0;
+                movingUp = true;
+
+            }
             break;
 
         case SDLK_a:
-            movingLeft = true;
+            if(!movingLeft)
+            {
+                movingLeft = true;
+                entityData.drawRect.x = 0;
+                entityData.drawRect.y = (2*entityData.dimensions.h);
+            }
             break;
         
         case SDLK_s:
@@ -273,7 +287,12 @@ void Player::keyPressed(SDL_Keycode key)
             break;
         
         case SDLK_d:
-            movingRight = true;
+            if(!movingRight)
+            {
+                movingRight = true;
+                entityData.drawRect.x = 0;
+                entityData.drawRect.y = entityData.dimensions.h;
+            }
             break;
         case SDLK_t:
             rotationPointOffsetY += 10;
@@ -290,6 +309,8 @@ void Player::keyPressed(SDL_Keycode key)
         case SDLK_h:
             rotationPointOffsetX += 10;
             break;
+        case SDLK_l:
+            sendEvent(RM_SET_TEXTURE,&entityData,NULL);
     }
 }
 
@@ -301,6 +322,9 @@ void Player::keyReleased(SDL_Keycode key)
             printf("Received W key!\n");
             movingUp = false;
             speedUp = 0;
+            entityData.drawRect.x = 0;
+            entityData.drawRect.y = 0;
+            upFrame = 0;
             break;
         
         case SDLK_a:

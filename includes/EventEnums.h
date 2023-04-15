@@ -6,7 +6,7 @@
 #define PATH_LEVEL1_BACKGROUND "./assets/img/background-main.jpg"
 #define PATH_BUTTON_START "./assets/img/StartButton.png"
 #define PATH_MAINMENU_BACKGROUND "./assets/img/menu.png"
-#define PATH_PLAYERMODEL "./assets/img/Jet3-1.png"
+#define PATH_PLAYERMODEL "./assets/img/extern_jet_sheet.png"
 #define PATH_ENEMY_MODEL1 "./assets/img/Jet.png"
 #define PATH_ENEMY_MODEL2 "./assets/img/Jet2.png"
 #define PATH_ENEMY_MODEL3 "./assets/img/Jet3.png"
