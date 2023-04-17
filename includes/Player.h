@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Mouse.h"
 #include "Structs.h"
+#include "Weapon.h"
 
 class Player : public Entity
 {
@@ -69,6 +70,8 @@ class Player : public Entity
         movingState moving;
 
         std::vector<TextureRect> magazine;
+        std::vector<Weapon> weapons;
+
 
 
 };

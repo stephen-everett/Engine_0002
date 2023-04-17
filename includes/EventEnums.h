@@ -100,4 +100,10 @@ enum TypeEnums
     ENEMY_HANDLER =1100,
 };
 
+enum WeaponPosition
+{
+    POSITION_LEFT,
+    POSITION_RIGHT
+};
+
 #endif

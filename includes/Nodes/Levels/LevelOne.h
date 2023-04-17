@@ -23,10 +23,10 @@ class LevelOne : public BusNode
         GameTime* clock;
         Mouse* mouse;
         Player player;
-        EnemyHandler enemies;
+        //EnemyHandler enemies;
         std::vector<TextureRect> staticAssets;
         std::vector<TextureRect> dynamicAssets;
-        Entity colliderTester;
+        //Entity colliderTester;
         //Button startButton;
 
 };

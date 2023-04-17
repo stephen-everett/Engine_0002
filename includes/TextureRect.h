@@ -26,6 +26,11 @@ struct TextureRect
     int collisionCount = 0;
     SDL_Rect colliderRect;
 
+    // used by projectiles for position
+    double angleRads;
+    int centerx;
+    int centery;
+
     TextureRect()
     {
         texturePath = NULL;

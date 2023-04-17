@@ -15,6 +15,7 @@ Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
     :Entity(PLAYER, eventBus, PATH_PLAYERMODEL, INDX_PLAYER, WINDOW_WIDTH/2-50, WINDOW_HEIGHT-150,47,56),
     locationFinder()
 {
+    entityData.colliderTag = COLLIDER_PLAYER;
     this->clock = clock;
     this->mouse = mouse;
     SDL_ShowCursor(SDL_ENABLE);
@@ -32,19 +33,8 @@ Player::Player(EventBus* eventBus, Mouse* mouse,GameTime* clock)
 
     rotationPointOffsetX = 0;
     rotationPointOffsetY = 0;
-    for (int i = 0; i < 30; i++)
-    {
-        magazine.emplace_back(
-                PATH_BULLET,
-                INDX_BULLET,
-                0,0,
-                20,20,
-                false);
-    }
-    entityData.drawRect.x = 0;
-    entityData.drawRect.y = 0;
-    entityData.drawRect.h = 56;
-    entityData.drawRect.w = 47;
+    weapons.emplace_back(&entityData,POSITION_LEFT);
+    weapons.emplace_back(&entityData,POSITION_RIGHT);
 }
 
 void Player::setSpeedLimit(int limit)
@@ -54,56 +44,22 @@ void Player::setSpeedLimit(int limit)
 
 void Player::fire()
 {
-   bool fired = false;
-   bool firedLeft = false;
-   for(auto it = magazine.begin(); it != magazine.end(); it++)
-   {
-       if(!fired)
-       {
-           if(it->enabled == false)
-           {
-               if(!firedLeft)
-               {
-                   
-                   it->enabled = true;
-                   it->dimensions.x = centerx - 28*cos(angle) -10;
-                   it->dimensions.y = centery - 28*sin(angle) -10;
-                   it->angle = entityData.angle;
-                   it->pathX = 25*sin(angle);
-                   it->pathY = 25*cos(angle);
-                   
-                   firedLeft = true;
-               }
-               else
-               {
-                   
-                   it->enabled = true;
-                   it->dimensions.x = centerx + 28*cos(angle) -5;//entityData.dimensions.x+75;
-                   it->dimensions.y = centery + 28*sin(angle) -5;//entityData.dimensions.y + 15;
-                   it->angle = entityData.angle;
-                   it->pathX = 25*sin(angle);
-                   it->pathY = 25*cos(angle);
-                   fired = true;
-                   
-
-               }
-           }
-       }
-   }
+    weapons[0].fire();
+    weapons[1].fire();
 }
 
 void Player::updatePositions()
 {
     printf("Rotation Offset X: %i\n",rotationPointOffsetX);
     printf("Rotation Offset Y: %i\n", rotationPointOffsetY); 
-    centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
-    centery = entityData.dimensions.y + (entityData.dimensions.h)/ 2;
+    entityData.centerx = entityData.dimensions.x + (entityData.dimensions.w / 2);
+    entityData.centery = entityData.dimensions.y + (entityData.dimensions.h)/ 2;
 
-    deltaX = centerx - mousex;
-    deltaY = centery - mousey;
+    deltaX = entityData.centerx - mousex;
+    deltaY = entityData.centery - mousey;
 
-    angle = atan2(-deltaX,deltaY);
-    entityData.angle = (angle) * (180.0000000000/3.1416);
+    entityData.angleRads = atan2(-deltaX,deltaY);
+    entityData.angle = (entityData.angleRads) * (180.0000000000/3.1416);
 
     double slope = tan(angle);
 
@@ -111,29 +67,15 @@ void Player::updatePositions()
     entityData.rotationPoint.y = entityData.dimensions.h/2;
 
 
-    locationFinder.dimensions.x = centerx + 34*cos(angle-2.722);
-    locationFinder.dimensions.y = centery + 34*sin(angle-2.722);
+    //locationFinder.dimensions.x = entityData.centerx + 34*cos(angle-2.722);
+    //locationFinder.dimensions.y = entityData.centery + 34*sin(angle-2.722);
 
 }
 
 void Player::updateProjectiles()
 {
-    for(auto it = magazine.begin(); it != magazine.end(); it++)
-    {
-        if(it->dimensions.x < 0 || it->dimensions.x > WINDOW_WIDTH)
-        {
-            it->enabled = false;
-        }
-        if(it->dimensions.y < 0 || it->dimensions.y > WINDOW_HEIGHT)
-        {
-            it->enabled = false;
-        }
-        if(it->enabled)
-        {
-            it->dimensions.x += it->pathX;
-            it->dimensions.y -= it->pathY;
-        }
-    }
+       weapons[0].update();
+       weapons[1].update();
 }
 
 void Player::update()
@@ -154,8 +96,8 @@ void Player::update()
 
 void Player::calculateTrajectory()
 {
-    trajectoryY = cos(angle);
-    trajectoryX = sin(angle);
+    trajectoryY = cos(entityData.angleRads);
+    trajectoryX = sin(entityData.angleRads);
 }
 
 void Player::move()
@@ -241,6 +183,28 @@ void Player::moveLeft()
         }
         entityData.dimensions.x -= speedLeft;
     }
+}
+void Player::sendColliders()
+{
+
+    entityData.colliderTag = COLLIDER_PLAYER;
+    sendEvent(CS_LOAD_COLLIDER,&entityData,NULL);
+
+    std::vector<TextureRect>* temp = weapons[0].getRenderData();
+    for(auto it = temp->begin(); it != temp->end(); it++)
+    {
+        sendEvent(CS_LOAD_COLLIDER,&(*it),NULL);
+    }
+    temp = weapons[1].getRenderData();
+    for(auto it = temp->begin(); it != temp->end(); it++)
+    {
+        sendEvent(CS_LOAD_COLLIDER,&(*it),NULL);
+    }
+}
+
+void Player::requestTextures()
+{
+    Entity::requestTextures();
 }
 
 void Player::moveRight()
@@ -344,30 +308,6 @@ void Player::keyReleased(SDL_Keycode key)
     
 }
 
-void Player::sendColliders()
-{
-    locationFinder.colliderTag = COLLIDER_PLAYER;
-    locationFinder.enabled = true; 
-    locationFinder.dimensions.h = 20;
-    locationFinder.dimensions.w = 20;
-    entityData.colliderTag = COLLIDER_PLAYER;
-    sendEvent(CS_LOAD_COLLIDER,&locationFinder,NULL);
-    sendEvent(CS_LOAD_COLLIDER,&entityData,NULL);
-    for(auto it = magazine.begin(); it != magazine.end(); it++)
-    {
-        it->colliderTag = COLLIDER_PLAYER;
-        sendEvent(CS_LOAD_COLLIDER,&(*it),NULL);
-    }
-}
-
-void Player::requestTextures()
-{
-    Entity::requestTextures();
-    for(auto it = magazine.begin(); it != magazine.end(); it++)
-    {
-        sendEvent(RM_SET_TEXTURE,&(*it),NULL);
-    }
-}
 
 void Player::onNotify(SDL_Event event)
 {

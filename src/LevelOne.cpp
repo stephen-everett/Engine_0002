@@ -7,8 +7,7 @@ LevelOne::~LevelOne()
     eventBus->removeReceiver(LEVEL_1);
 }
 LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse,GameTime* clock):BusNode(LEVEL_1,eventBus),
-    player(eventBus, mouse,clock), colliderTester(ENTITY,eventBus,PATH_COLLIDERTESTER,INDX_COLLIDERTESTER,WINDOW_WIDTH/2,WINDOW_HEIGHT/2,50,50),
-    enemies(eventBus,clock)
+    player(eventBus, mouse,clock)
 {
     this->clock = clock;
     this->mouse = mouse;
@@ -31,9 +30,24 @@ LevelOne::LevelOne(EventBus* eventBus, Mouse* mouse,GameTime* clock):BusNode(LEV
     dynamicAssets.emplace_back(
             PATH_STARS,
             INDX_STARS,
-            0,-480,
+            0,-WINDOW_HEIGHT,
             WINDOW_WIDTH,
             WINDOW_HEIGHT);
+    for(auto it = staticAssets.begin(); it != staticAssets.end(); it++)
+    {
+        it->drawRect.x = 0;
+        it->drawRect.y = 0;
+        it->drawRect.h = 1080;
+        it->drawRect.w = 1920;
+    }
+    for(auto it = dynamicAssets.begin(); it != dynamicAssets.end(); it++)
+    {
+        it->drawRect.x = 0;
+        it->drawRect.y = 0;
+        it->drawRect.h = 480;
+        it->drawRect.w = 640;
+    }
+
 }
 
 void LevelOne::update()
@@ -42,27 +56,17 @@ void LevelOne::update()
     {
         for(auto it = dynamicAssets.begin(); it != dynamicAssets.end(); it++)
         {
-            if(it->dimensions.y > 480)
+            if(it->dimensions.y > WINDOW_HEIGHT)
             {
-                it->dimensions.y = -479;
+                it->dimensions.y = -WINDOW_HEIGHT;
             }
             it->dimensions.y += 10;
         }
-    }
-    if(colliderTester.getTextureRect()->isCollided)
-    {
-        printf("Collision Detected! Number of collisions: %i\n",colliderTester.getTextureRect()->collisionCount);
-    }
-    else
-    {
-        printf("Collision not detected! Number of collisoins: %i\n",colliderTester.getTextureRect()->collisionCount);
     }
 }
 
 void LevelOne::requestTextures()
 {
-    TextureRect* temp = mouse->getTextureRect();
-    sendEvent(RM_SET_TEXTURE,mouse->getTextureRect(),NULL);
     for(auto it = staticAssets.begin(); it != staticAssets.end(); it++)
     {
         sendEvent(RM_SET_TEXTURE,&(*it),NULL);
@@ -72,9 +76,6 @@ void LevelOne::requestTextures()
     {
         sendEvent(RM_SET_TEXTURE,&(*it),NULL);
     }
-    sendEvent(RM_SET_TEXTURE,colliderTester.getTextureRect(),NULL);
-    colliderTester.setCollision(COLLIDER_ENEMY);
-    sendEvent(CS_LOAD_COLLIDER,colliderTester.getTextureRect(),NULL);
     
 }
 
