@@ -16,6 +16,8 @@ class Weapon
         void setProjectiles(TextureRect* newProjectile);
         TextureRect* getProjectileData();
         std::vector<TextureRect>* getRenderData();
+        void increaseOffset();
+        void decreaseOffset();
         
     private:
         void updateMountPosition();
@@ -31,6 +33,8 @@ class Weapon
 
         double circleSin;
         double circleCos;
+
+        double offset;
 
         std::vector<TextureRect> magazine;
         std::vector<TextureRect*> bulletData;

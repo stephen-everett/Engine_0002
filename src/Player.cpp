@@ -44,8 +44,10 @@ void Player::setSpeedLimit(int limit)
 
 void Player::fire()
 {
-    weapons[0].fire();
-    weapons[1].fire();
+    for(auto it = weapons.begin(); it != weapons.end(); it++)
+    {
+        it->fire();
+    }
 }
 
 void Player::updatePositions()
@@ -74,8 +76,10 @@ void Player::updatePositions()
 
 void Player::updateProjectiles()
 {
-       weapons[0].update();
-       weapons[1].update();
+    for(auto it = weapons.begin(); it != weapons.end(); it++)
+    {
+        it->update();
+    }
 }
 
 void Player::update()
@@ -264,10 +268,13 @@ void Player::keyPressed(SDL_Keycode key)
         
         case SDLK_f:
             rotationPointOffsetX -= 10;
+            weapons[1].increaseOffset();
             break;
         
         case SDLK_g:
             rotationPointOffsetY -= 10;
+            weapons[1].decreaseOffset();
+
             break;
         
         case SDLK_h:

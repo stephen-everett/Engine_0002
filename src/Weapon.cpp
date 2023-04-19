@@ -5,6 +5,7 @@ Weapon::Weapon(TextureRect* attachedTo, WeaponPosition position)
 {
     this->attachedTo = attachedTo;
     this->position = position;
+    offset = 0.0;
 
     for(int i = 0; i < 100; i++)
     {
@@ -40,21 +41,37 @@ void Weapon::update()
 
 void Weapon::placeLeft()
 {
-    circleSin = circleSize*sin(attachedTo->angleRads);
-    circleCos = circleSize*cos(attachedTo->angleRads);
+    circleSin = (circleSize-offset)*sin(attachedTo->angleRads);
+    circleCos = (circleSize-offset)*cos(attachedTo->angleRads);
     
-    mountPointX = attachedTo->centerx - circleCos;
-    mountPointY = attachedTo->centery - circleSin;
+    mountPointX = attachedTo->centerx + circleCos;
+    mountPointY = attachedTo->centery + circleSin;
 }
 
 void Weapon::placeRight()
 {
-    circleSin = circleSize*sin(attachedTo->angleRads+1);
-    circleCos = circleSize*cos(attachedTo->angleRads+1);
-    
-    mountPointX = attachedTo->centerx - circleCos;
-    mountPointY = attachedTo->centery - circleSin;
+    placeLeft();
+    /*
+    circleSin = (circleSize-20)*sin(attachedTo->angleRads);
+    circleCos = (circleSize-20)*cos(attachedTo->angleRads);
 
+    int offsetSin = circleSize*sin(attachedTo->angleRads +offset);
+    int offsetCos = circleSize*cos(attachedTo->angleRads +offset);
+    printf("Current offset: %.4f\n",offset);
+    
+    mountPointX = attachedTo->centerx + offsetCos-10;
+    mountPointY = attachedTo->centery + offsetSin;
+*/
+}
+
+void Weapon::increaseOffset()
+{
+    offset += 0.1;
+}
+
+void Weapon::decreaseOffset()
+{
+    offset -= 0.1;
 }
 
 void Weapon::updateMountPosition()
@@ -72,6 +89,7 @@ void Weapon::updateMountPosition()
 
 void Weapon::updateProjectilePosition()
 {
+    /*
     for(auto it = magazine.begin(); it != magazine.end(); it++)
     {
 
@@ -87,10 +105,9 @@ void Weapon::updateProjectilePosition()
         {
             it->dimensions.x += it->pathX;
             it->dimensions.y -= it->pathY;
-            //it->dimensions.y--;
         }
     }
-
+    */
 }
 
 void Weapon::fire()
